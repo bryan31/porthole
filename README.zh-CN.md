@@ -135,7 +135,7 @@ Tests/                  单元测试（Swift Testing）
 Localization/           各语言翻译（JSON）和提取出的键列表
 scripts/                打包、测试、图标、翻译、官网发布脚本
 design/logo/            图标源文件（logo.py 生成 SVG）
-website/                官网（纯静态页面：简体、English、繁體）
+website/                官网（纯静态页面：English、简体、繁體）
 deploy/                 官网的 nginx 配置
 ```
 

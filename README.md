@@ -133,7 +133,7 @@ Tests/                  Unit tests (Swift Testing)
 Localization/           Translations (JSON) and the extracted key list
 scripts/                Packaging, tests, icon, translations and website release scripts
 design/logo/            Icon sources (logo.py writes the SVGs)
-website/                The website (static pages in 简体中文, English and 繁體中文)
+website/                The website (static pages in English, 简体中文 and 繁體中文)
 deploy/                 nginx configuration for the website
 ```
 
