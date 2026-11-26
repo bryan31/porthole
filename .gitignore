@@ -16,8 +16,7 @@ DerivedData/
 .idea/
 
 # ---- Release packages ----
-# Made by scripts/build-site.sh; published on the website server and GitHub Releases, not in git.
-website/downloads/
+# Made by scripts/build-site.sh into build/; published on GitHub Releases, not in git.
 *.zip
 *.zip.sha256
 
