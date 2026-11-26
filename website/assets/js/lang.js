@@ -1,11 +1,13 @@
 /* Site languages. Each language is its own set of static pages:
- *    ./          简体中文 (zh-Hans, the default)
- *    en/         English
+ *    ./          English (the default)
+ *    zh-hans/    简体中文
  *    zh-hant/    繁體中文
  * This file holds the few strings that the other scripts write themselves, and runs the
  * language menu in the navigation bar. A choice made in the menu is remembered in
- * localStorage "porthole-lang"; the default pages read it (or, without one, the browser
- * language) in a small inline script in <head> and move to the right version on arrival.
+ * localStorage "porthole-lang"; the default (English) pages read it in a small inline
+ * script in <head> and move to the chosen version on arrival. Without a choice they take
+ * the first browser language the site has (zh-Hant/TW/HK/MO -> 繁體, other zh -> 简体,
+ * en -> stay), and stay English when the browser lists none of them.
  * Load this before theme.js, home.js and docs.js. */
 (() => {
   'use strict';
@@ -54,7 +56,7 @@
 
   window.porthole = {
     lang,
-    t: (key) => (STRINGS[lang] && STRINGS[lang][key]) || STRINGS['zh-hans'][key] || key,
+    t: (key) => (STRINGS[lang] && STRINGS[lang][key]) || STRINGS.en[key] || key,
   };
 
   /* ---- Language menu: <details class="lang-menu"> works without script; this adds the rest. */

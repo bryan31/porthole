@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <script>/* First visit to the default (简体中文) pages: go to the saved or browser language. Links inside the site never redirect. */(function(){try{var r=document.referrer;if(r&&new URL(r).origin===location.origin)return;var p=localStorage.getItem('porthole-lang');if(!p){if(/bot|crawl|spider|slurp|preview/i.test(navigator.userAgent))return;var l=((navigator.languages||[])[0]||navigator.language||'').toLowerCase();p=/^zh-(hant|tw|hk|mo)/.test(l)?'zh-hant':/^zh/.test(l)?'zh-hans':'en'}var d={en:'en/','zh-hant':'zh-hant/'}[p];if(d)location.replace(d+location.pathname.split('/').pop()+location.search+location.hash)}catch(e){}})();</script>
-  <title>使用说明 · Porthole 舷窗</title>
-  <meta name="description" content="Porthole 使用说明：安装与第一次打开、创建隧道、本地/远程/SOCKS 转发规则、登录方式、服务器指纹、代理与跳板机、导入导出、设置和常见问题。">
+  <script>/* Arriving from outside the site: go to the language chosen in the menu before, or else the first browser language the site has (简体 or 繁體 Chinese); with none of them, stay on these English pages. Links inside the site never redirect. */(function(){try{var r=document.referrer;if(r&&new URL(r).origin===location.origin)return;var p=localStorage.getItem('porthole-lang');if(!p){if(/bot|crawl|spider|slurp|preview/i.test(navigator.userAgent))return;var ls=navigator.languages&&navigator.languages.length?navigator.languages:[navigator.language||''];for(var i=0;i<ls.length&&!p;i++){var l=String(ls[i]).toLowerCase();p=/^en\b/.test(l)?'en':/^zh-hans\b/.test(l)?'zh-hans':/^zh-(hant|tw|hk|mo)\b/.test(l)?'zh-hant':/^zh\b/.test(l)?'zh-hans':''}}var d={'zh-hans':'zh-hans/','zh-hant':'zh-hant/'}[p];if(d)location.replace(d+location.pathname.split('/').pop()+location.search+location.hash)}catch(e){}})();</script>
+  <title>Guide · Porthole</title>
+  <meta name="description" content="Porthole guide: installing and opening it the first time, creating tunnels, local/remote/SOCKS forwarding rules, sign-in methods, server fingerprints, proxies and jump hosts, import and export, settings and troubleshooting.">
   <meta name="theme-color" content="#061331">
-  <link rel="alternate" hreflang="zh-Hans" href="docs.html">
+  <link rel="alternate" hreflang="zh-Hans" href="zh-hans/docs.html">
   <link rel="alternate" hreflang="zh-Hant" href="zh-hant/docs.html">
-  <link rel="alternate" hreflang="en" href="en/docs.html">
+  <link rel="alternate" hreflang="en" href="docs.html">
   <link rel="alternate" hreflang="x-default" href="docs.html">
   <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
   <link rel="icon" type="image/png" href="assets/img/favicon-64.png">
@@ -19,27 +19,27 @@
   <script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('porthole-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';d.dataset.theme=t;d.classList.add('js')})();</script>
 </head>
 <body class="docs">
-  <a class="skip" href="#content">跳到正文</a>
+  <a class="skip" href="#content">Skip to content</a>
 
   <header class="nav is-solid" id="nav">
-    <a class="brand" href="./" aria-label="Porthole 首页">
+    <a class="brand" href="./" aria-label="Porthole home">
       <img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="28" height="28">
       <span class="brand-word">Porthole</span>
     </a>
-    <nav class="nav-links" aria-label="主导航">
-      <a class="nav-secondary" href="./">首页</a>
-      <a href="docs.html" aria-current="page">使用说明</a>
-      <a class="nav-download" href="./#download">下载</a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="nav-secondary" href="./">Home</a>
+      <a href="docs.html" aria-current="page">Guide</a>
+      <a class="nav-download" href="./#download">Download</a>
       <details class="lang-menu">
-        <summary aria-label="语言：简体中文 · Language"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3.2 12h17.6M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z"/></g></svg><span>简</span></summary>
+        <summary aria-label="Language: English · 语言"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3.2 12h17.6M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z"/></g></svg><span>EN</span></summary>
         <ul class="lang-list">
-          <li><a href="en/docs.html" hreflang="en" lang="en" data-lang="en">English</a></li>
-          <li><a href="docs.html" hreflang="zh-Hans" lang="zh-Hans" data-lang="zh-hans" aria-current="true">简体中文</a></li>
+          <li><a href="docs.html" hreflang="en" lang="en" data-lang="en" aria-current="true">English</a></li>
+          <li><a href="zh-hans/docs.html" hreflang="zh-Hans" lang="zh-Hans" data-lang="zh-hans">简体中文</a></li>
           <li><a href="zh-hant/docs.html" hreflang="zh-Hant" lang="zh-Hant" data-lang="zh-hant">繁體中文</a></li>
         </ul>
       </details>
-      <a class="nav-github" href="https://github.com/bryan31/porthole" aria-label="Porthole 的源代码（GitHub）" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
-      <button class="theme-toggle" type="button" aria-label="切换主题">
+      <a class="nav-github" href="https://github.com/bryan31/porthole" aria-label="Porthole source code on GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      <button class="theme-toggle" type="button" aria-label="Switch theme">
         <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.3" fill="currentColor"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.4 5.4l1.6 1.6M17 17l1.6 1.6M5.4 18.6 7 17M17 7l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 14.6A8.1 8.1 0 0 1 9.4 4.4a8.1 8.1 0 1 0 10.2 10.2Z" fill="currentColor"/></svg>
       </button>
@@ -48,51 +48,51 @@
 
   <div class="docs-head">
     <div class="docs-head-inner">
-      <h1>使用说明</h1>
-      <p>适用于 Porthole <span data-release="version">1.0.0</span>，需要 macOS 14 或更新版本和 Apple 芯片。</p>
+      <h1>Guide</h1>
+      <p>For Porthole <span data-release="version">1.0.0</span>, which needs macOS 14 or later on a Mac with Apple silicon.</p>
     </div>
   </div>
 
   <div class="docs-layout">
-    <nav class="toc" aria-label="目录">
+    <nav class="toc" aria-label="Contents">
       <details open id="toc-details">
-        <summary>目录</summary>
+        <summary>Contents</summary>
         <ol>
-          <li><a href="#install">安装</a>
+          <li><a href="#install">Install</a>
             <ol>
-              <li><a href="#requirements">系统要求</a></li>
-              <li><a href="#first-launch">第一次打开</a></li>
-              <li><a href="#verify">校验下载文件</a></li>
+              <li><a href="#requirements">Requirements</a></li>
+              <li><a href="#first-launch">Opening it the first time</a></li>
+              <li><a href="#verify">Checking the download</a></li>
             </ol>
           </li>
-          <li><a href="#first-tunnel">创建第一条隧道</a></li>
-          <li><a href="#rules">转发规则</a>
+          <li><a href="#first-tunnel">Your first tunnel</a></li>
+          <li><a href="#rules">Forwarding rules</a>
             <ol>
-              <li><a href="#rule-local">本地转发</a></li>
-              <li><a href="#rule-remote">远程转发</a></li>
-              <li><a href="#rule-socks">SOCKS 代理</a></li>
-              <li><a href="#presets">预设</a></li>
-              <li><a href="#bind">监听地址</a></li>
+              <li><a href="#rule-local">Local forwarding</a></li>
+              <li><a href="#rule-remote">Remote forwarding</a></li>
+              <li><a href="#rule-socks">SOCKS proxy</a></li>
+              <li><a href="#presets">Presets</a></li>
+              <li><a href="#bind">Listening addresses</a></li>
             </ol>
           </li>
-          <li><a href="#signin">登录方式</a></li>
-          <li><a href="#hostkey">服务器指纹</a></li>
-          <li><a href="#proxy">代理与跳板机</a></li>
-          <li><a href="#connection">连接与保活</a></li>
-          <li><a href="#advanced">高级选项</a></li>
-          <li><a href="#daily">日常使用</a>
+          <li><a href="#signin">Signing in</a></li>
+          <li><a href="#hostkey">Server fingerprints</a></li>
+          <li><a href="#proxy">Proxies and jump hosts</a></li>
+          <li><a href="#connection">Connection and keep-alive</a></li>
+          <li><a href="#advanced">Advanced options</a></li>
+          <li><a href="#daily">Everyday use</a>
             <ol>
-              <li><a href="#main-window">主窗口与路线图示</a></li>
-              <li><a href="#menubar">菜单栏</a></li>
-              <li><a href="#groups">搜索与智能分组</a></li>
-              <li><a href="#log">日志</a></li>
-              <li><a href="#shortcuts">快捷键</a></li>
+              <li><a href="#main-window">Main window and route diagram</a></li>
+              <li><a href="#menubar">Menu bar</a></li>
+              <li><a href="#groups">Search and smart groups</a></li>
+              <li><a href="#log">Log</a></li>
+              <li><a href="#shortcuts">Keyboard shortcuts</a></li>
             </ol>
           </li>
-          <li><a href="#import-export">导入与导出</a></li>
-          <li><a href="#settings">设置</a></li>
-          <li><a href="#faq">常见问题</a></li>
-          <li><a href="#data">数据位置与卸载</a></li>
+          <li><a href="#import-export">Import and export</a></li>
+          <li><a href="#settings">Settings</a></li>
+          <li><a href="#faq">Troubleshooting</a></li>
+          <li><a href="#data">Where data lives, and uninstalling</a></li>
         </ol>
       </details>
     </nav>
@@ -101,342 +101,342 @@
 
       <!-- ============ Install ============ -->
       <section id="install">
-        <h2>安装</h2>
+        <h2>Install</h2>
 
-        <h3 id="requirements">系统要求</h3>
+        <h3 id="requirements">Requirements</h3>
         <ul>
-          <li>macOS 14 Sonoma 或更新版本。</li>
-          <li>Apple 芯片的 Mac（M1 及之后的机型）。Porthole 是原生 arm64 应用，不能在 Intel Mac 上运行。</li>
-          <li>不需要另外安装任何东西。Porthole 驱动的是 macOS 自带的 OpenSSH 客户端 <code>/usr/bin/ssh</code>，它随系统更新。</li>
+          <li>macOS 14 Sonoma or later.</li>
+          <li>A Mac with Apple silicon (M1 or later). Porthole is a native arm64 app and doesn't run on Intel Macs.</li>
+          <li>Nothing else to install. Porthole drives the OpenSSH client that comes with macOS, <code>/usr/bin/ssh</code>, which is updated along with the system.</li>
         </ul>
 
-        <h3 id="download-install">下载与安装</h3>
+        <h3 id="download-install">Download and install</h3>
         <ol class="steps">
-          <li>在<a href="./#download">下载页</a>下载 <code>Porthole-<span data-release="version">1.0.0</span>.zip</code>（<span data-release="size">1.3 MB</span>）。</li>
-          <li>双击 zip 解压，得到 Porthole.app。</li>
-          <li>把 Porthole.app 拖进“应用程序”文件夹。</li>
+          <li>Download <code>Porthole-<span data-release="version">1.0.0</span>.zip</code> (<span data-release="size">1.3 MB</span>) from the <a href="./#download">download section</a>.</li>
+          <li>Double-click the zip to unpack Porthole.app.</li>
+          <li>Drag Porthole.app into your Applications folder.</li>
         </ol>
 
-        <h3 id="first-launch">第一次打开</h3>
-        <p>Porthole 目前使用临时签名，没有经过 Apple 公证。第一次打开从网上下载的这类应用时，macOS 会拦下它，并提示无法验证开发者。按下面的步骤放行一次，以后就能正常打开：</p>
+        <h3 id="first-launch">Opening it the first time</h3>
+        <p>Porthole is currently ad-hoc signed and not notarized by Apple. The first time you open an app like this from the internet, macOS stops it and says it can't verify the developer. Let it through once with these steps, and it opens normally from then on:</p>
         <ol class="steps">
-          <li>双击 Porthole，看到提示后点“完成”关闭它。</li>
-          <li>打开 <b>系统设置 ▸ 隐私与安全性</b>，滚动到页面下方的“安全性”部分。</li>
-          <li>找到关于 Porthole 被阻止的提示，点旁边的“仍要打开”。在随后的对话框里再点一次“仍要打开”，并输入登录密码确认。</li>
+          <li>Double-click Porthole. When the warning appears, click “Done” to close it.</li>
+          <li>Open <b>System Settings ▸ Privacy &amp; Security</b> and scroll down to the Security section.</li>
+          <li>Find the message saying Porthole was blocked and click “Open Anyway” next to it. Click “Open Anyway” again in the dialog that follows, and confirm with your login password.</li>
         </ol>
-        <p>熟悉终端的话，也可以直接移除下载时附加的隔离标记，效果相同：</p>
+        <p>If you're at home in Terminal, removing the quarantine flag that came with the download does the same thing:</p>
         <pre><code>xattr -dr com.apple.quarantine /Applications/Porthole.app</code></pre>
-        <p class="note">在 macOS 14 上，也可以按住 Control 键点按 Porthole，在菜单里选“打开”。macOS 15 起这个方法不再有效，请使用上面的步骤。</p>
+        <p class="note">On macOS 14 you can also Control-click Porthole and choose Open from the menu. That no longer works from macOS 15 on; use the steps above instead.</p>
 
-        <h3 id="verify">校验下载文件</h3>
-        <p>在终端里计算 zip 的 SHA-256，结果应该与下面这串一致：</p>
+        <h3 id="verify">Checking the download</h3>
+        <p>Compute the zip's SHA-256 in Terminal. The result should match this one:</p>
         <pre><code>shasum -a 256 ~/Downloads/Porthole-<span data-release="version">1.0.0</span>.zip</code></pre>
         <p class="sha-line"><code data-release="sha256">697bc77d141e89e911210e3e66555268139e87e73b49bc40207f2b5a9a1430f6</code></p>
       </section>
 
       <!-- ============ First tunnel ============ -->
       <section id="first-tunnel">
-        <h2>创建第一条隧道</h2>
-        <p>假设数据库 <code>db.internal:5432</code> 只能从跳板服务器 <code>bastion.acme.io</code> 访问。下面把它接到你 Mac 的 <code>localhost:15432</code> 上。</p>
+        <h2>Your first tunnel</h2>
+        <p>Say the database <code>db.internal:5432</code> can only be reached from the jump server <code>bastion.acme.io</code>. Here's how to bring it to <code>localhost:15432</code> on your Mac.</p>
         <ol class="steps">
           <li>
-            <p>按 <kbd>⌘N</kbd>，或点工具栏上的 +。第一次打开时，也可以点欢迎页上的“创建隧道”。</p>
+            <p>Press <kbd>⌘N</kbd> or click + in the toolbar. The first time, you can also click “Create a Tunnel” on the welcome screen.</p>
           </li>
           <li>
-            <p>在“服务器”页填写名称（随你，例如“生产数据库”）、主机 <code>bastion.acme.io</code>、端口 <code>22</code> 和用户 <code>deploy</code>。登录方式先保持“自动（代理和密钥）”：它会用上 ssh-agent、<code>~/.ssh</code> 里的密钥和 <code>~/.ssh/config</code>。</p>
-            <figure class="shot"><img src="assets/img/shots/zh-hans/editor-server.webp" alt="编辑器的服务器页：名称、备注、主机、端口、用户和登录方式" width="680" height="640" loading="lazy"></figure>
+            <p>On the Server tab, enter a name (anything you like, e.g. “Production database”), the host <code>bastion.acme.io</code>, port <code>22</code> and user <code>deploy</code>. Leave the sign-in method at “Automatic (agent &amp; keys)” for now: it uses ssh-agent, the keys in <code>~/.ssh</code> and your <code>~/.ssh/config</code>.</p>
+            <figure class="shot"><img src="assets/img/shots/en/editor-server.webp" alt="The editor's Server tab: name, note, host, port, user and sign-in method" width="680" height="640" loading="lazy"></figure>
           </li>
           <li>
-            <p>切到“转发”页，点“添加规则”。类型选“本地”，在本机监听 <code>localhost</code> : <code>15432</code>，目标（从服务器看）填 <code>db.internal</code> : <code>5432</code>。上方的小图会实时显示这条规则的走向，下面还有一句白话解释。</p>
-            <figure class="shot"><img src="assets/img/shots/zh-hans/editor-forwarding.webp" alt="编辑器的转发页：三条本地规则，各带开关" width="680" height="640" loading="lazy"></figure>
+            <p>Switch to the Forwarding tab and click “Add Rule”. Choose Local as the type, listen on <code>localhost</code> : <code>15432</code> on this Mac, and set the destination (as seen from the server) to <code>db.internal</code> : <code>5432</code>. A small diagram above shows where the rule goes as you type, with a plain-language explanation below it.</p>
+            <figure class="shot"><img src="assets/img/shots/en/editor-forwarding.webp" alt="The editor's Forwarding tab: three local rules, each with its own switch" width="680" height="640" loading="lazy"></figure>
           </li>
           <li>
-            <p>点“创建并连接”。第一次连接这台服务器时，Porthole 会显示它的指纹，核对无误后点“信任并连接”（见<a href="#hostkey">服务器指纹</a>）。</p>
+            <p>Click “Create &amp; Connect”. The first time you connect to this server, Porthole shows its fingerprint. If it checks out, click “Trust and Connect” (see <a href="#hostkey">Server fingerprints</a>).</p>
           </li>
           <li>
-            <p>连上以后，在数据库客户端里连接 <code>localhost:15432</code> 就行了。</p>
+            <p>Once connected, point your database client at <code>localhost:15432</code> and you're done.</p>
           </li>
         </ol>
-        <p class="tip">想让隧道开机就绪：在“服务器”页勾选“Porthole 启动时自动连接”，再到 <b>设置 ▸ 通用</b> 打开“登录时打开 Porthole”。关闭主窗口后，隧道仍会继续运行。</p>
+        <p class="tip">To have the tunnel ready when you start your Mac, tick “Connect when Porthole launches” on the Server tab and turn on “Open Porthole at login” in <b>Settings ▸ General</b>. Tunnels keep running after you close the main window.</p>
       </section>
 
       <!-- ============ Rules ============ -->
       <section id="rules">
-        <h2>转发规则</h2>
-        <p>一条隧道可以放任意多条规则，它们共用同一个 SSH 连接。每条规则卡片右上角都有开关，可以单独停用；停用的规则在图示里会变淡。规则的类型随时可以切换。</p>
+        <h2>Forwarding rules</h2>
+        <p>A tunnel can hold as many rules as you like, and they all share the same SSH connection. Each rule card has a switch in its top-right corner to turn it off on its own; disabled rules are dimmed in the diagram. You can change a rule's type at any time.</p>
 
-        <h3 id="rule-local">本地转发 <span class="flag">ssh -L</span></h3>
-        <p><b>在本地端口访问远程服务。</b>本机应用连接“在本机监听”的端口，流量经 SSH 服务器转发，再由服务器连接到目标。</p>
+        <h3 id="rule-local">Local forwarding <span class="flag">ssh -L</span></h3>
+        <p><b>Reach a remote service on a local port.</b> Apps on this Mac connect to the port under “Listen on this Mac”; the traffic is forwarded through the SSH server, which connects on to the destination.</p>
         <dl class="fields">
-          <div><dt>在本机监听</dt><dd>地址和端口，例如 <code>localhost</code> : <code>15432</code>。</dd></div>
-          <div><dt>目标（从服务器看）</dt><dd>服务器能访问到的主机和端口，例如 <code>db.internal</code> : <code>5432</code>。这里写 <code>localhost</code>，指的是服务器自己。</dd></div>
+          <div><dt>Listen on this Mac</dt><dd>Address and port, e.g. <code>localhost</code> : <code>15432</code>.</dd></div>
+          <div><dt>Destination (as seen from the server)</dt><dd>A host and port the server can reach, e.g. <code>db.internal</code> : <code>5432</code>. <code>localhost</code> here means the server itself.</dd></div>
         </dl>
         <pre><code>ssh -N -L 15432:db.internal:5432 deploy@bastion.acme.io</code></pre>
 
-        <h3 id="rule-remote">远程转发 <span class="flag">ssh -R</span></h3>
-        <p><b>把本机服务分享给服务器。</b>服务器在指定端口上监听，那里收到的连接会经隧道回到你的 Mac，再连接到目标。常用来把开发中的网页给同事看，或接收 webhook 回调。</p>
+        <h3 id="rule-remote">Remote forwarding <span class="flag">ssh -R</span></h3>
+        <p><b>Share a local service with the server.</b> The server listens on a port you choose; connections that arrive there come back through the tunnel to your Mac and on to the destination. Often used to show a work-in-progress site to colleagues, or to receive webhook callbacks.</p>
         <dl class="fields">
-          <div><dt>在服务器上监听</dt><dd>留空表示服务器默认，只在服务器自己的 localhost 上监听；端口例如 <code>8080</code>。</dd></div>
-          <div><dt>目标（从本机看）</dt><dd>你 Mac 上的服务，例如 <code>localhost</code> : <code>3000</code>。</dd></div>
+          <div><dt>Listen on the server</dt><dd>Leave the address empty for the server's default, which listens only on the server's own localhost; the port is e.g. <code>8080</code>.</dd></div>
+          <div><dt>Destination (as seen from this Mac)</dt><dd>A service on your Mac, e.g. <code>localhost</code> : <code>3000</code>.</dd></div>
         </dl>
         <pre><code>ssh -N -R 8080:localhost:3000 deploy@preview.acme.io</code></pre>
-        <figure class="shot"><img src="assets/img/shots/zh-hans/editor-forwarding-remote.webp" alt="一条远程规则：preview.acme.io 在 8080 上监听，连接回到本机的 localhost:3000" width="680" height="640" loading="lazy"></figure>
+        <figure class="shot"><img src="assets/img/shots/en/editor-forwarding-remote.webp" alt="A remote rule: preview.acme.io listens on 8080 and connections come back to localhost:3000 on this Mac" width="680" height="640" loading="lazy"></figure>
         <ul>
-          <li>想让其他机器也能访问服务器上的这个端口，需要服务器的 sshd 设置 <code>GatewayPorts clientspecified</code>，并在“在服务器上监听”里填 <code>0.0.0.0</code> 或 <code>*</code>。</li>
-          <li>只有以 root 登录时，才能打开 1024 以下的远程端口。</li>
-          <li>远程端口在服务器上已被占用时，服务器会拒绝，Porthole 会提示“服务器拒绝打开远程端口”。</li>
+          <li>For other machines to reach that port on the server, the server's sshd needs <code>GatewayPorts clientspecified</code>, and “Listen on the server” needs <code>0.0.0.0</code> or <code>*</code>.</li>
+          <li>Remote ports below 1024 can only be opened when you sign in as root.</li>
+          <li>If the remote port is already taken on the server, the server refuses and Porthole reports that the server refused to open the remote port.</li>
         </ul>
 
-        <h3 id="rule-socks">SOCKS 代理 <span class="flag">ssh -D</span></h3>
-        <p><b>通过服务器上网。</b>本机在指定端口上运行一个 SOCKS4/5 代理。把浏览器或应用指向它，所有连接都会从 SSH 服务器出去，适合访问只对服务器开放的网站和内网地址。</p>
+        <h3 id="rule-socks">SOCKS proxy <span class="flag">ssh -D</span></h3>
+        <p><b>Browse through the server.</b> A SOCKS4/5 proxy runs on a port on this Mac. Point a browser or app at it and every connection leaves from the SSH server, which is handy for sites and internal addresses that only the server can reach.</p>
         <dl class="fields">
-          <div><dt>在本机监听</dt><dd>例如 <code>localhost</code> : <code>1080</code>。</dd></div>
+          <div><dt>Listen on this Mac</dt><dd>e.g. <code>localhost</code> : <code>1080</code>.</dd></div>
         </dl>
-        <p>设好之后，在应用里把代理设为 SOCKS5、<code>localhost:1080</code>。例如在终端里：</p>
+        <p>Then set the app's proxy to SOCKS5, <code>localhost:1080</code>. In Terminal, for example:</p>
         <pre><code>curl --socks5-hostname localhost:1080 https://intranet.acme.io</code></pre>
-        <p class="note">让域名也在服务器那边解析（curl 的 <code>--socks5-hostname</code>，或浏览器里的“通过 SOCKS 代理 DNS”），才能访问只在内网 DNS 里存在的地址。</p>
+        <p class="note">Let host names resolve on the server side too (curl's <code>--socks5-hostname</code>, or “Proxy DNS when using SOCKS” in a browser) to reach addresses that exist only in the internal DNS.</p>
 
-        <h3 id="presets">预设</h3>
-        <p>“添加规则”旁边的菜单里有常用预设，选一个再填目标主机即可：</p>
+        <h3 id="presets">Presets</h3>
+        <p>The menu next to “Add Rule” has common presets. Pick one, then fill in the destination host:</p>
         <table>
-          <thead><tr><th>预设</th><th>类型</th><th>端口</th></tr></thead>
+          <thead><tr><th>Preset</th><th>Type</th><th>Ports</th></tr></thead>
           <tbody>
-            <tr><td>PostgreSQL</td><td>本地</td><td>5432 → 5432</td></tr>
-            <tr><td>MySQL / MariaDB</td><td>本地</td><td>3306 → 3306</td></tr>
-            <tr><td>Redis</td><td>本地</td><td>6379 → 6379</td></tr>
-            <tr><td>MongoDB</td><td>本地</td><td>27017 → 27017</td></tr>
-            <tr><td>Web 应用</td><td>本地</td><td>8080 → 80</td></tr>
-            <tr><td>远程桌面</td><td>本地</td><td>3389 → 3389</td></tr>
-            <tr><td>VNC / 屏幕共享</td><td>本地</td><td>5901 → 5900</td></tr>
-            <tr><td>分享本地开发服务器</td><td>远程</td><td>服务器 8080 → 本机 3000</td></tr>
+            <tr><td>PostgreSQL</td><td>Local</td><td>5432 → 5432</td></tr>
+            <tr><td>MySQL / MariaDB</td><td>Local</td><td>3306 → 3306</td></tr>
+            <tr><td>Redis</td><td>Local</td><td>6379 → 6379</td></tr>
+            <tr><td>MongoDB</td><td>Local</td><td>27017 → 27017</td></tr>
+            <tr><td>Web app</td><td>Local</td><td>8080 → 80</td></tr>
+            <tr><td>Remote Desktop</td><td>Local</td><td>3389 → 3389</td></tr>
+            <tr><td>VNC / Screen Sharing</td><td>Local</td><td>5901 → 5900</td></tr>
+            <tr><td>Share local dev server</td><td>Remote</td><td>server 8080 → this Mac 3000</td></tr>
           </tbody>
         </table>
 
-        <h3 id="bind">监听地址</h3>
+        <h3 id="bind">Listening addresses</h3>
         <ul>
-          <li><code>localhost</code>（默认）：只有这台 Mac 上的程序能连接。</li>
-          <li><code>0.0.0.0</code> 或 <code>*</code>：局域网里的其他设备也能连到你 Mac 的这个端口。只在确实需要时使用。</li>
-          <li>也可以填这台 Mac 某个网卡的 IP 地址。</li>
+          <li><code>localhost</code> (the default): only programs on this Mac can connect.</li>
+          <li><code>0.0.0.0</code> or <code>*</code>: other devices on your network can connect to this port on your Mac too. Use it only when you really need to.</li>
+          <li>You can also enter the IP address of one of this Mac's network interfaces.</li>
         </ul>
-        <p>连接之前，Porthole 会检查本地端口是否已被占用，被占用时会指出是哪个进程和它的 PID。同一条隧道里两条规则用了同一个端口，也会直接提示。</p>
+        <p>Before connecting, Porthole checks whether the local ports are free. If one is taken, it names the process and its PID. Two rules in the same tunnel using the same port are flagged right away, too.</p>
       </section>
 
       <!-- ============ Sign in ============ -->
       <section id="signin">
-        <h2>登录方式</h2>
-        <p>在“服务器”页的 <b>登录 ▸ 方式</b> 里选择：</p>
+        <h2>Signing in</h2>
+        <p>Choose under <b>Sign In ▸ Method</b> on the Server tab:</p>
         <dl class="fields">
-          <div><dt>自动（代理和密钥）</dt><dd>默认方式。使用 ssh-agent、<code>~/.ssh</code> 里的密钥和 <code>~/.ssh/config</code>。如果服务器仍要求密码，Porthole 会询问你。</dd></div>
-          <div><dt>密码</dt><dd>可以直接填在这里，也可以留空，每次连接时再询问。</dd></div>
-          <div><dt>私钥</dt><dd>选择私钥文件，例如 <code>~/.ssh/id_ed25519</code>。私钥设有口令时，Porthole 只问一次，可以保存在钥匙串里。如果服务器在私钥之后还要验证码，Porthole 会再询问。</dd></div>
-          <div><dt>键盘交互 / 双重认证</dt><dd>适用于需要一次性验证码或其他提示的服务器。Porthole 会把服务器的每个问题逐一显示给你。</dd></div>
+          <div><dt>Automatic (agent &amp; keys)</dt><dd>The default. Uses ssh-agent, the keys in <code>~/.ssh</code> and your <code>~/.ssh/config</code>. If the server still asks for a password, Porthole asks you.</dd></div>
+          <div><dt>Password</dt><dd>Enter it here, or leave it empty to be asked each time you connect.</dd></div>
+          <div><dt>Private Key</dt><dd>Choose a private key file, e.g. <code>~/.ssh/id_ed25519</code>. If the key has a passphrase, Porthole asks once and can keep it in your Keychain. If the server also wants a one-time code after the key, Porthole asks for that as well.</dd></div>
+          <div><dt>Keyboard-Interactive / 2FA</dt><dd>For servers that ask for one-time codes or other prompts. Porthole shows you each of the server's questions in turn.</dd></div>
         </dl>
-        <figure class="shot shot-sm"><img src="assets/img/shots/zh-hans/prompt-password.webp" alt="输入密码的对话框，带有保存到钥匙串的选项" width="440" height="250" loading="lazy"></figure>
-        <p>询问密码的对话框里勾选“保存到我的钥匙串”，下次就不用再输。所有密码和口令都只保存在 macOS 钥匙串里，不会写进 Porthole 的设置文件，也不会出现在导出文件中。</p>
+        <figure class="shot shot-sm"><img src="assets/img/shots/en/prompt-password.webp" alt="The password dialog, with the option to remember it in the Keychain" width="440" height="250" loading="lazy"></figure>
+        <p>Tick “Remember in my Keychain” in the password dialog and you won't have to type it again. Every password and passphrase is kept only in the macOS Keychain. None of them are written to Porthole's settings file or included in exports.</p>
       </section>
 
       <!-- ============ Host key ============ -->
       <section id="hostkey">
-        <h2>服务器指纹</h2>
-        <p>第一次连接一台服务器时，Porthole 会弹出“信任此服务器？”，显示服务器地址、密钥类型和 SHA256 指纹。请和服务器管理员给你的指纹核对，一致再点“信任并连接”。</p>
-        <figure class="shot shot-sm"><img src="assets/img/shots/zh-hans/prompt-hostkey.webp" alt="信任此服务器对话框：服务器、密钥类型和指纹" width="440" height="330" loading="lazy"></figure>
-        <p>在 <b>高级 ▸ 安全 ▸ 主机密钥检查</b> 里可以换一种策略：</p>
+        <h2>Server fingerprints</h2>
+        <p>The first time you connect to a server, Porthole asks “Trust this server?” and shows the server's address, key type and SHA256 fingerprint. Compare it with the fingerprint your server administrator gave you, and click “Trust and Connect” only if they match.</p>
+        <figure class="shot shot-sm"><img src="assets/img/shots/en/prompt-hostkey.webp" alt="The “Trust this server?” dialog: server, key type and fingerprint" width="440" height="330" loading="lazy"></figure>
+        <p>You can pick a different policy under <b>Advanced ▸ Security ▸ Host key checking</b>:</p>
         <dl class="fields">
-          <div><dt>新主机时询问</dt><dd>默认。如上所述，每台新服务器都先让你确认。</dd></div>
-          <div><dt>自动信任新主机</dt><dd>第一次连接时直接记住服务器的密钥，相当于 OpenSSH 的 <code>accept-new</code>。</dd></div>
-          <div><dt>仅限已知主机</dt><dd>只连接 <code>~/.ssh/known_hosts</code> 里已有的服务器。</dd></div>
+          <div><dt>Ask for new hosts</dt><dd>The default. As described above, every new server needs your OK first.</dd></div>
+          <div><dt>Trust new hosts automatically</dt><dd>Remembers a server's key on the first connection without asking, like OpenSSH's <code>accept-new</code>.</dd></div>
+          <div><dt>Only known hosts</dt><dd>Connects only to servers already in <code>~/.ssh/known_hosts</code>.</dd></div>
         </dl>
-        <p>无论选哪种，<b>主机密钥变化的服务器一律拒绝</b>，因为这可能意味着有人在拦截连接。如果你确认服务器只是重装了系统，先删掉旧记录再连接：</p>
+        <p>Whichever you choose, <b>a server whose host key has changed is always refused</b>, because that can mean someone is intercepting the connection. If you're sure the server was simply reinstalled, delete the old entry and connect again:</p>
         <pre><code>ssh-keygen -R bastion.acme.io</code></pre>
-        <p>服务器不在 22 端口时，写成 <code>ssh-keygen -R "[bastion.acme.io]:2222"</code>。</p>
-        <p>勾选“同时检查服务器的 IP 地址”后，OpenSSH 还会核对 IP 地址，可以发现 DNS 欺骗。</p>
+        <p>If the server isn't on port 22, write it as <code>ssh-keygen -R "[bastion.acme.io]:2222"</code>.</p>
+        <p>With “Also check the server's IP address” ticked, OpenSSH checks the IP address as well, which catches DNS spoofing.</p>
       </section>
 
       <!-- ============ Proxy ============ -->
       <section id="proxy">
-        <h2>代理与跳板机</h2>
-        <p>在“连接”页的 <b>代理 / 跳板机 ▸ 路由</b> 里选择怎样到达 SSH 服务器。页面顶部的路线图会显示 本机 → 代理或跳板机 → 服务器。</p>
-        <figure class="shot"><img src="assets/img/shots/zh-hans/editor-connection-jump.webp" alt="连接页：本机经跳板机 bastion.acme.io 连接到 10.20.0.4" width="680" height="640" loading="lazy"></figure>
+        <h2>Proxies and jump hosts</h2>
+        <p>Choose how to reach the SSH server under <b>Proxy / Jump Host ▸ Route</b> on the Connection tab. The route diagram at the top of the tab shows this Mac → proxy or jump host → server.</p>
+        <figure class="shot"><img src="assets/img/shots/en/editor-connection-jump.webp" alt="The Connection tab: this Mac connects to 10.20.0.4 through the jump host bastion.acme.io" width="680" height="640" loading="lazy"></figure>
         <dl class="fields">
-          <div><dt>直接连接</dt><dd>直接连 SSH 服务器。</dd></div>
-          <div><dt>跳板机（ProxyJump）</dt><dd>先连到另一台 SSH 服务器，再从那里连到目标服务器，相当于 <code>ssh -J</code>。跳板机用你的密钥和 ssh-agent 登录；如果它要求密码，Porthole 会询问，并与目标服务器的密码分开保存。</dd></div>
-          <div><dt>SOCKS5 / SOCKS4 代理</dt><dd>经 SOCKS 代理连接，默认端口 1080。在严格的防火墙后面很有用，甚至可以经由另一条 Porthole SOCKS 隧道，例如 <code>localhost:1080</code>。</dd></div>
-          <div><dt>HTTP 代理（CONNECT）</dt><dd>经支持 CONNECT 的 HTTP 代理连接，默认端口 8080。</dd></div>
+          <div><dt>Direct connection</dt><dd>Connects straight to the SSH server.</dd></div>
+          <div><dt>Jump host (ProxyJump)</dt><dd>Connects to another SSH server first and from there to the target server, like <code>ssh -J</code>. The jump host signs in with your keys and ssh-agent; if it asks for a password, Porthole asks you and saves it separately from the target server's.</dd></div>
+          <div><dt>SOCKS5 / SOCKS4 proxy</dt><dd>Connects through a SOCKS proxy, port 1080 by default. Useful behind a strict firewall; you can even go through another Porthole SOCKS tunnel, such as <code>localhost:1080</code>.</dd></div>
+          <div><dt>HTTP proxy (CONNECT)</dt><dd>Connects through an HTTP proxy that supports CONNECT, port 8080 by default.</dd></div>
         </dl>
-        <p>代理需要用户名和密码时，填好用户并勾选“代理需要密码”，密码同样保存在钥匙串里。</p>
+        <p>If the proxy needs a user name and password, enter the user and tick “Proxy requires a password”. That password is kept in the Keychain as well.</p>
       </section>
 
       <!-- ============ Connection ============ -->
       <section id="connection">
-        <h2>连接与保活</h2>
-        <p>“连接”页：</p>
+        <h2>Connection and keep-alive</h2>
+        <p>On the Connection tab:</p>
         <dl class="fields">
-          <div><dt>连接超时</dt><dd>默认 15 秒，可设 3 到 120 秒。</dd></div>
-          <div><dt>每次连接的尝试次数</dt><dd>默认 1 次。只在服务器宕机或无法访问时生效，服务器主动拒绝连接时不会重试。</dd></div>
-          <div><dt>保活</dt><dd>默认每 30 秒一次，3 次无响应后判定断开，也就是大约 90 秒能发现失效的连接，随后 Porthole 自动重连。设为“关”时，失效的连接可能很久都不会被发现。</dd></div>
-          <div><dt>网络接口</dt><dd>只有这台 Mac 同时连着多个网络（例如 Wi-Fi 和 VPN）时才需要指定。</dd></div>
+          <div><dt>Connect timeout</dt><dd>15 seconds by default; anything from 3 to 120 seconds.</dd></div>
+          <div><dt>Attempts per connect</dt><dd>1 by default. Only applies when the server is down or unreachable; a server that actively refuses the connection isn't retried.</dd></div>
+          <div><dt>Keep-alive</dt><dd>Every 30 seconds by default, and the connection counts as dropped after 3 unanswered checks, so a dead connection is noticed within about 90 seconds and Porthole reconnects. With keep-alive Off, a dead connection may go unnoticed for a long time.</dd></div>
+          <div><dt>Network interface</dt><dd>Only needed when this Mac is on several networks at once, such as Wi-Fi and a VPN.</dd></div>
         </dl>
-        <p>“服务器”页的 <b>行为</b>：</p>
+        <p>Under <b>Behavior</b> on the Server tab:</p>
         <dl class="fields">
-          <div><dt>Porthole 启动时自动连接</dt><dd>打开 Porthole 时自动连接这条隧道。</dd></div>
-          <div><dt>连接断开时自动重连</dt><dd>默认打开。重试间隔依次为 2、4、8、16、30 秒，之后每 30 秒一次；连接稳定一段时间后重新计数。Mac 从睡眠中唤醒、网络恢复后，Porthole 也会主动刷新隧道。</dd></div>
+          <div><dt>Connect when Porthole launches</dt><dd>Connects this tunnel when you open Porthole.</dd></div>
+          <div><dt>Reconnect automatically when the connection drops</dt><dd>On by default. Retries after 2, 4, 8, 16 and 30 seconds, then every 30 seconds; the count starts over once the connection has been stable for a while. Porthole also refreshes tunnels when your Mac wakes from sleep or the network comes back.</dd></div>
         </dl>
-        <p>修改正在运行的隧道并存储后，它会用新设置重新连接。</p>
+        <p>When you change a running tunnel and save, it reconnects with the new settings.</p>
       </section>
 
       <!-- ============ Advanced ============ -->
       <section id="advanced">
-        <h2>高级选项</h2>
-        <figure class="shot"><img src="assets/img/shots/zh-hans/editor-advanced.webp" alt="编辑器的高级页：安全、压缩、算法、OpenSSH 选项和命令预览" width="680" height="640" loading="lazy"></figure>
+        <h2>Advanced options</h2>
+        <figure class="shot"><img src="assets/img/shots/en/editor-advanced.webp" alt="The editor's Advanced tab: security, compression, algorithms, OpenSSH options and the command preview" width="680" height="640" loading="lazy"></figure>
         <dl class="fields">
-          <div><dt>地址族</dt><dd>任意、仅 IPv4 或仅 IPv6。</dd></div>
-          <div><dt>压缩数据</dt><dd>在慢速网络上有帮助，在快速网络上反而会变慢。</dd></div>
-          <div><dt>算法</dt><dd>主机密钥算法、密钥交换和加密算法。留空使用 OpenSSH 默认值。用逗号分隔；以 <code>+</code> 开头表示追加到默认值之后，例如很旧的服务器可在“主机密钥算法”里填 <code>+ssh-rsa</code>。</dd></div>
-          <div><dt>使用 ~/.ssh/config 中的设置</dt><dd>默认打开。这台主机在 <code>~/.ssh/config</code> 里的设置（例如 IdentityFile、ProxyJump）会一起生效。</dd></div>
-          <div><dt>额外的 ssh 选项</dt><dd>每行一个，例如 <code>IPQoS throughput</code>。会以 <code>-o</code> 选项传给 ssh，并优先于上面的设置。</dd></div>
-          <div><dt>命令预览</dt><dd>显示 Porthole 实际执行的完整 ssh 命令。排查问题时可以拷贝到终端里，加上 <code>-v</code> 运行。</dd></div>
+          <div><dt>Address family</dt><dd>Any, IPv4 only or IPv6 only.</dd></div>
+          <div><dt>Compress data</dt><dd>Helps on slow networks, but slows things down on fast ones.</dd></div>
+          <div><dt>Algorithms</dt><dd>Host key algorithms, key exchange and ciphers. Leave them empty for OpenSSH's defaults. Separate entries with commas; start with <code>+</code> to add to the defaults, e.g. <code>+ssh-rsa</code> under “Host key algorithms” for a very old server.</dd></div>
+          <div><dt>Use settings from ~/.ssh/config</dt><dd>On by default. This host's settings in <code>~/.ssh/config</code> (IdentityFile, ProxyJump and so on) apply too.</dd></div>
+          <div><dt>Extra ssh options</dt><dd>One per line, e.g. <code>IPQoS throughput</code>. They are passed to ssh as <code>-o</code> options and take precedence over the settings above.</dd></div>
+          <div><dt>Command Preview</dt><dd>Shows the complete ssh command Porthole runs. When troubleshooting, copy it into Terminal and add <code>-v</code>.</dd></div>
         </dl>
       </section>
 
       <!-- ============ Daily use ============ -->
       <section id="daily">
-        <h2>日常使用</h2>
+        <h2>Everyday use</h2>
 
-        <h3 id="main-window">主窗口与路线图示</h3>
-        <p>左边是隧道列表，上方是搜索框和过滤标签（全部、活跃、自动启动和你的智能分组）。每条隧道右侧的开关就是连接和断开。右边显示选中隧道的状态、端口转发图示和每条规则的实时状态；规则右侧可以拷贝地址，网页类的规则还能直接在浏览器中打开。</p>
-        <figure class="shot"><img src="assets/img/shots/zh-hans/detail-light.webp" alt="主窗口右侧：Production Database 已连接，端口转发图示和三条规则，下方是连接信息" width="845" height="750" loading="lazy"></figure>
-        <p>每条隧道画成一个“领结”：</p>
+        <h3 id="main-window">Main window and route diagram</h3>
+        <p>The tunnel list is on the left, with a search field and filters above it (All, Active, Auto-start and your smart groups). The switch to the right of each tunnel connects and disconnects it. On the right you see the selected tunnel's status, its port forwarding diagram and the live state of each rule; next to each rule you can copy its address, and web rules can be opened straight in the browser.</p>
+        <figure class="shot"><img src="assets/img/shots/en/detail-light.webp" alt="The right side of the main window: Production Database is connected, with the port forwarding diagram, three rules and the connection details below" width="845" height="750" loading="lazy"></figure>
+        <p>Each tunnel is drawn as a bow tie:</p>
         <ul>
-          <li>左边是本机这一侧的地址，右边是服务器那一侧，所有规则汇入中间同一条 SSH 加密通道。</li>
-          <li>实心标签是连接进来的监听端口，空心标签是最终到达的地址。箭头和流动的光点表示数据方向，远程转发是从服务器流回本机。</li>
-          <li>颜色表示状态：转发生效时按类型着色（本地蓝、远程紫、SOCKS 青），启动中为橙色，未连接为灰色虚线，停用的规则变淡。</li>
-          <li>通道中间的锁在连上时变绿，失败时变成红色的 ✕。经代理或跳板机时，通道下方会标出“经由 …”。</li>
+          <li>The addresses on this Mac's side are on the left and the server's side on the right; every rule meets in one encrypted SSH channel in the middle.</li>
+          <li>Filled tags are the ports that listen for connections; outlined tags are where the traffic ends up. Arrows and moving dots show which way data flows; for remote forwarding it flows from the server back to this Mac.</li>
+          <li>Colour shows the state: active forwards are coloured by type (local blue, remote purple, SOCKS teal), starting up is orange, not connected is a grey dashed line, and disabled rules are dimmed.</li>
+          <li>The lock in the middle of the channel turns green once connected and becomes a red ✕ when the connection fails. When the route goes through a proxy or jump host, the channel is labelled “via …”.</li>
         </ul>
 
-        <h3 id="menubar">菜单栏</h3>
+        <h3 id="menubar">Menu bar</h3>
         <div class="split">
           <div>
-            <p>菜单栏里的小舷窗显示整体状态：内圈空心表示全部未连接，半满表示正在连接，填满表示有隧道已连接，带斜线表示有隧道连接失败。</p>
-            <p>点开面板，可以单独开关每条隧道，或者全部连接、全部断开；右上角可以切换浅色和深色，也能打开设置。</p>
-            <p>关闭主窗口后隧道仍会继续运行。在 <b>设置 ▸ 通用 ▸ Porthole 显示在</b> 里选“仅菜单栏”，Porthole 就不会出现在程序坞里。</p>
+            <p>The small porthole in the menu bar shows the overall state: a hollow centre means all disconnected, half-filled means connecting, filled means a tunnel is connected, and a slash means a tunnel failed to connect.</p>
+            <p>Open the panel to switch each tunnel on or off, or to connect or disconnect them all; in its top-right corner you can switch between light and dark, or open Settings.</p>
+            <p>Tunnels keep running after you close the main window. Choose “Menu bar only” under <b>Settings ▸ General ▸ Show Porthole in</b> and Porthole stays out of the Dock.</p>
           </div>
-          <figure class="shot shot-menubar"><img src="assets/img/shots/zh-hans/menubar.webp" alt="菜单栏面板：六条隧道及状态，下方是全部连接和全部断开" width="330" height="470" loading="lazy"></figure>
+          <figure class="shot shot-menubar"><img src="assets/img/shots/en/menubar.webp" alt="The menu bar panel: six tunnels and their status, with Connect All and Disconnect All below" width="330" height="470" loading="lazy"></figure>
         </div>
 
-        <h3 id="groups">搜索与智能分组</h3>
-        <p>搜索框按名称、主机和端口过滤。常用的过滤条件可以存成智能分组：点过滤标签旁边的 +，或选择 <b>文件 ▸ 新建智能分组…</b>（<kbd>⌥⌘N</kbd>），填写名称和关键词（用空格分隔）。名称、备注、主机或端口中包含全部关键词的隧道都会出现在这个分组里。</p>
+        <h3 id="groups">Search and smart groups</h3>
+        <p>The search field filters by name, host and port. Save a filter you use often as a smart group: click the + next to the filters, or choose <b>File ▸ New Smart Group…</b> (<kbd>⌥⌘N</kbd>), then enter a name and keywords separated by spaces. Every tunnel whose name, note, host or ports contain all of the keywords appears in the group.</p>
 
-        <h3 id="log">日志</h3>
-        <p>选择 <b>隧道 ▸ 显示日志</b>（<kbd>⌘L</kbd>）查看这条隧道的连接过程，可以拷贝或清空。OpenSSH 自己的原始输出保持英文；常见的错误和断线原因会翻译成对应语言的提示。</p>
+        <h3 id="log">Log</h3>
+        <p>Choose <b>Tunnel ▸ Show Log</b> (<kbd>⌘L</kbd>) to follow how the tunnel connects; you can copy or clear the log. OpenSSH's own output stays in English, while common errors and reasons for dropping are explained in your language.</p>
 
-        <h3 id="shortcuts">快捷键</h3>
+        <h3 id="shortcuts">Keyboard shortcuts</h3>
         <table class="keys">
           <tbody>
-            <tr><td>新建隧道</td><td><kbd>⌘N</kbd></td></tr>
-            <tr><td>新建智能分组</td><td><kbd>⌥⌘N</kbd></td></tr>
-            <tr><td>连接所选隧道</td><td><kbd>⌘R</kbd></td></tr>
-            <tr><td>断开所选隧道</td><td><kbd>⌘.</kbd></td></tr>
-            <tr><td>全部连接</td><td><kbd>⌥⌘R</kbd></td></tr>
-            <tr><td>全部断开</td><td><kbd>⌥⌘.</kbd></td></tr>
-            <tr><td>编辑</td><td><kbd>⌘E</kbd></td></tr>
-            <tr><td>复制隧道</td><td><kbd>⌘D</kbd></td></tr>
-            <tr><td>拷贝 SSH 命令</td><td><kbd>⇧⌘C</kbd></td></tr>
-            <tr><td>显示日志</td><td><kbd>⌘L</kbd></td></tr>
-            <tr><td>删除</td><td><kbd>⌘⌫</kbd></td></tr>
-            <tr><td>导入隧道</td><td><kbd>⇧⌘I</kbd></td></tr>
-            <tr><td>导出所选隧道</td><td><kbd>⇧⌘E</kbd></td></tr>
-            <tr><td>切换浅色/深色</td><td><kbd>⇧⌘D</kbd></td></tr>
-            <tr><td>设置</td><td><kbd>⌘,</kbd></td></tr>
+            <tr><td>New Tunnel</td><td><kbd>⌘N</kbd></td></tr>
+            <tr><td>New Smart Group</td><td><kbd>⌥⌘N</kbd></td></tr>
+            <tr><td>Connect the selected tunnels</td><td><kbd>⌘R</kbd></td></tr>
+            <tr><td>Disconnect the selected tunnels</td><td><kbd>⌘.</kbd></td></tr>
+            <tr><td>Connect All</td><td><kbd>⌥⌘R</kbd></td></tr>
+            <tr><td>Disconnect All</td><td><kbd>⌥⌘.</kbd></td></tr>
+            <tr><td>Edit</td><td><kbd>⌘E</kbd></td></tr>
+            <tr><td>Duplicate</td><td><kbd>⌘D</kbd></td></tr>
+            <tr><td>Copy SSH Command</td><td><kbd>⇧⌘C</kbd></td></tr>
+            <tr><td>Show Log</td><td><kbd>⌘L</kbd></td></tr>
+            <tr><td>Delete</td><td><kbd>⌘⌫</kbd></td></tr>
+            <tr><td>Import Tunnels</td><td><kbd>⇧⌘I</kbd></td></tr>
+            <tr><td>Export Selected Tunnels</td><td><kbd>⇧⌘E</kbd></td></tr>
+            <tr><td>Switch Light/Dark</td><td><kbd>⇧⌘D</kbd></td></tr>
+            <tr><td>Settings</td><td><kbd>⌘,</kbd></td></tr>
           </tbody>
         </table>
       </section>
 
       <!-- ============ Import / export ============ -->
       <section id="import-export">
-        <h2>导入与导出</h2>
+        <h2>Import and export</h2>
 
-        <h3 id="migrate">从 SSH Tunnel 迁移</h3>
-        <p>Codinn 的 SSH Tunnel 只有 Intel 版本，在以后的 macOS 上将无法运行。Porthole 能导入它的导出文件：</p>
+        <h3 id="migrate">Moving over from SSH Tunnel</h3>
+        <p>Codinn's SSH Tunnel is Intel-only and won't run on future versions of macOS. Porthole imports its export files:</p>
         <ol class="steps">
-          <li>在旧版 SSH Tunnel 里全选隧道，选择 <b>File ▸ Export Selected Tunnels…</b> 导出。</li>
-          <li>在 Porthole 里选择 <b>文件 ▸ 导入隧道…</b>（<kbd>⇧⌘I</kbd>），选中刚才的文件。</li>
-          <li>导出文件不含密码。第一次连接时 Porthole 会询问，勾选“保存到我的钥匙串”即可。</li>
+          <li>In the old SSH Tunnel, select all your tunnels and choose <b>File ▸ Export Selected Tunnels…</b>.</li>
+          <li>In Porthole, choose <b>File ▸ Import Tunnels…</b> (<kbd>⇧⌘I</kbd>) and pick that file.</li>
+          <li>Exports don't include passwords. Porthole asks for each one when you first connect; tick “Remember in my Keychain” and you're set.</li>
         </ol>
-        <p class="note">原版导出文件的格式没有公开文档，Porthole 按已知的字段做了宽松解析。导入后请逐条检查一遍。</p>
+        <p class="note">The original export format isn't publicly documented, so Porthole reads the known fields leniently. Check each tunnel once after importing.</p>
 
-        <h3 id="ssh-config">从 ~/.ssh/config 导入</h3>
-        <p>选择 <b>文件 ▸ 从 ~/.ssh/config 导入</b>。只会导入带有 LocalForward、RemoteForward 或 DynamicForward 的 Host 条目，导入的隧道会继续使用 <code>~/.ssh/config</code> 中各主机的设置。例如：</p>
+        <h3 id="ssh-config">Importing from ~/.ssh/config</h3>
+        <p>Choose <b>File ▸ Import from ~/.ssh/config</b>. Only Host entries with a LocalForward, RemoteForward or DynamicForward are imported, and the imported tunnels keep using each host's settings in <code>~/.ssh/config</code>. For example:</p>
         <pre><code>Host db-tunnel
   HostName bastion.acme.io
   User deploy
   LocalForward 15432 db.internal:5432</code></pre>
 
-        <h3 id="export">导出与备份</h3>
-        <p>选择 <b>文件 ▸ 导出所选隧道…</b>（<kbd>⇧⌘E</kbd>）或 <b>导出全部隧道…</b>。在 <b>设置 ▸ 数据</b> 里也可以导出全部隧道和智能分组。导出文件不包含密码，密码只保存在你的钥匙串中；在另一台 Mac 上导入后，第一次连接时输入即可。</p>
+        <h3 id="export">Export and backup</h3>
+        <p>Choose <b>File ▸ Export Selected Tunnels…</b> (<kbd>⇧⌘E</kbd>) or <b>Export All Tunnels…</b>. You can also export all tunnels and smart groups from <b>Settings ▸ Data</b>. Exports don't contain passwords, which stay in your Keychain; after importing on another Mac, enter them on the first connection.</p>
       </section>
 
       <!-- ============ Settings ============ -->
       <section id="settings">
-        <h2>设置</h2>
-        <p>选择 <b>Porthole ▸ 设置…</b>（<kbd>⌘,</kbd>）。</p>
+        <h2>Settings</h2>
+        <p>Choose <b>Porthole ▸ Settings…</b> (<kbd>⌘,</kbd>).</p>
         <div class="split">
           <dl class="fields">
-            <div><dt>通用</dt><dd>外观（自动、浅色、深色）；界面语言，改完点“立即重启”生效；登录时打开 Porthole；Porthole 显示在程序坞和菜单栏、仅程序坞或仅菜单栏；隧道断开或失败时、隧道连接时是否通知。</dd></div>
-            <div><dt>高级</dt><dd>Mac 从睡眠中唤醒后刷新隧道；ssh 可执行文件，默认 <code>/usr/bin/ssh</code>，需要时可以换成 Homebrew 安装的版本，例如 <code>/opt/homebrew/bin/ssh</code>。</dd></div>
-            <div><dt>数据</dt><dd>从 SSH Tunnel 或 <code>~/.ssh/config</code> 导入，导出全部隧道和智能分组，以及设置文件的位置（可以在访达中显示）。</dd></div>
+            <div><dt>General</dt><dd>Appearance (automatic, light or dark); the interface language, which takes effect after you click “Restart Now”; opening Porthole at login; showing Porthole in the Dock and menu bar, the Dock only or the menu bar only; and notifications when a tunnel disconnects or fails, or connects.</dd></div>
+            <div><dt>Advanced</dt><dd>Refreshing tunnels after your Mac wakes from sleep, and the ssh executable: <code>/usr/bin/ssh</code> by default, or a Homebrew build such as <code>/opt/homebrew/bin/ssh</code> if you need one.</dd></div>
+            <div><dt>Data</dt><dd>Importing from SSH Tunnel or <code>~/.ssh/config</code>, exporting all tunnels and smart groups, and where the settings file lives (with a button to show it in Finder).</dd></div>
           </dl>
-          <figure class="shot shot-sm"><img src="assets/img/shots/zh-hans/settings-general.webp" alt="设置的通用页：外观、语言、登录时打开、显示位置和通知" width="520" height="580" loading="lazy"></figure>
+          <figure class="shot shot-sm"><img src="assets/img/shots/en/settings-general.webp" alt="The General settings: appearance, language, open at login, where Porthole appears, and notifications" width="520" height="580" loading="lazy"></figure>
         </div>
-        <p>界面支持 10 种语言：English、简体中文、繁體中文、日本語、한국어、Deutsch、Français、Español、Português (Brasil)、Русский。默认跟随系统，也可以在 <b>系统设置 ▸ 通用 ▸ 语言与地区 ▸ 应用程序</b> 里给 Porthole 单独指定。</p>
+        <p>The interface comes in 10 languages: English, 简体中文, 繁體中文, 日本語, 한국어, Deutsch, Français, Español, Português (Brasil) and Русский. It follows the system by default; you can also choose a language just for Porthole in <b>System Settings ▸ General ▸ Language &amp; Region ▸ Applications</b>.</p>
       </section>
 
       <!-- ============ FAQ ============ -->
       <section id="faq">
-        <h2>常见问题</h2>
+        <h2>Troubleshooting</h2>
 
-        <h3 id="faq-port-in-use">提示“端口 15432 已被某个进程占用”</h3>
-        <p>另一个程序正在使用这个本地端口，常见的是另一条隧道、本机运行的数据库，或者别处启动的 ssh。提示里会写出进程名和 PID。退出那个程序，或者把规则的本机端口换一个（例如 15433）。也可以自己查看：</p>
+        <h3 id="faq-port-in-use">“Port 15432 is already in use by …”</h3>
+        <p>Another program is using that local port, typically another tunnel, a database running on your Mac, or an ssh started elsewhere. The message names the process and its PID. Quit that program, or give the rule a different local port (e.g. 15433). To look for yourself:</p>
         <pre><code>lsof -nP -iTCP:15432 -sTCP:LISTEN</code></pre>
 
-        <h3 id="faq-login-rejected">服务器拒绝登录</h3>
-        <p>检查用户名是否正确。用私钥登录时，确认对应的公钥已加入服务器的 <code>~/.ssh/authorized_keys</code>；用“自动”方式时，运行 <code>ssh-add -l</code> 看看 ssh-agent 里有没有密钥。在 <b>高级 ▸ 命令预览</b> 里拷贝命令，加上 <code>-v</code> 在终端里运行，可以看到完整的登录过程。</p>
+        <h3 id="faq-login-rejected">The server rejected the login</h3>
+        <p>Check the user name. When signing in with a private key, make sure the matching public key is in the server's <code>~/.ssh/authorized_keys</code>; with the Automatic method, run <code>ssh-add -l</code> to see whether ssh-agent holds any keys. Copy the command from <b>Advanced ▸ Command Preview</b> and run it in Terminal with <code>-v</code> to see the whole sign-in.</p>
 
-        <h3 id="faq-host-key-changed">提示“服务器的主机密钥已变化”</h3>
-        <p>Porthole 不会连接主机密钥变化的服务器。先向管理员确认服务器是否重装或更换过密钥；确认无误后，用 <code>ssh-keygen -R 主机名</code> 删除旧记录再连接（见<a href="#hostkey">服务器指纹</a>）。</p>
+        <h3 id="faq-host-key-changed">“The server's host key has changed”</h3>
+        <p>Porthole won't connect to a server whose host key has changed. Ask the administrator first whether the server was reinstalled or got new keys; once you're sure, remove the old entry with <code>ssh-keygen -R hostname</code> and connect again (see <a href="#hostkey">Server fingerprints</a>).</p>
 
-        <h3 id="faq-no-common-algorithm">提示“与服务器没有共同支持的算法”</h3>
-        <p>通常是很旧的服务器。在 <b>高级 ▸ 算法</b> 里追加它支持的算法，例如在“主机密钥算法”里填 <code>+ssh-rsa</code>。能升级服务器的话，升级更好。</p>
+        <h3 id="faq-no-common-algorithm">“No common algorithm with the server”</h3>
+        <p>Usually a very old server. Add an algorithm it supports under <b>Advanced ▸ Algorithms</b>, e.g. <code>+ssh-rsa</code> under “Host key algorithms”. If you can upgrade the server, that's even better.</p>
 
-        <h3 id="faq-remote-port-refused">提示“服务器拒绝打开远程端口”</h3>
-        <p>这个端口在服务器上已被占用（可能是之前没断干净的会话），或者端口号小于 1024 而你不是以 root 登录。在服务器上用 <code>ss -ltnp</code> 查看谁占着端口，或者换一个端口。</p>
+        <h3 id="faq-remote-port-refused">“The server refused to open remote port …”</h3>
+        <p>The port is already taken on the server (perhaps by an earlier session that didn't close cleanly), or it's below 1024 and you're not signed in as root. Run <code>ss -ltnp</code> on the server to see who holds the port, or pick another one.</p>
 
-        <h3 id="faq-lid-closed">合上盖子以后隧道断了</h3>
-        <p>Mac 睡眠时网络会断开。唤醒后 Porthole 会自动刷新隧道，开着“连接断开时自动重连”的隧道会自己连回来。</p>
+        <h3 id="faq-lid-closed">Tunnels dropped after closing the lid</h3>
+        <p>The network goes down while your Mac sleeps. After it wakes, Porthole refreshes the tunnels, and those with “Reconnect automatically when the connection drops” turned on come back by themselves.</p>
 
-        <h3 id="faq-ssh-rejected-settings">提示“ssh 不接受这些设置”</h3>
-        <p>检查 <b>高级 ▸ 额外的 ssh 选项</b> 里有没有拼错的选项，以及 <code>~/.ssh/config</code> 里这台主机的设置。</p>
+        <h3 id="faq-ssh-rejected-settings">“ssh did not accept these settings”</h3>
+        <p>Check <b>Advanced ▸ Extra ssh options</b> for misspelled options, and this host's settings in <code>~/.ssh/config</code>.</p>
 
-        <h3 id="faq-unverified-developer">打不开 Porthole，提示无法验证开发者</h3>
-        <p>见<a href="#first-launch">第一次打开</a>。</p>
+        <h3 id="faq-unverified-developer">Porthole won't open: the developer can't be verified</h3>
+        <p>See <a href="#first-launch">Opening it the first time</a>.</p>
 
-        <h3 id="faq-report">问题还是没有解决</h3>
-        <p>到 <a href="https://github.com/bryan31/porthole/issues">GitHub Issues</a> 提交问题，附上 Porthole 和 macOS 的版本，以及日志里相关的几行（发出前删掉服务器地址等敏感信息）。Porthole 是开源软件，源代码在 <a href="https://github.com/bryan31/porthole">github.com/bryan31/porthole</a>，也欢迎直接提交改进。</p>
+        <h3 id="faq-report">Still stuck?</h3>
+        <p>Open an issue on <a href="https://github.com/bryan31/porthole/issues">GitHub</a> with your Porthole and macOS versions and the relevant lines from the log (remove server names and other private details first). Porthole is open source: the code is at <a href="https://github.com/bryan31/porthole">github.com/bryan31/porthole</a>, and pull requests are welcome.</p>
       </section>
 
       <!-- ============ Data ============ -->
       <section id="data">
-        <h2>数据位置与卸载</h2>
+        <h2>Where data lives, and uninstalling</h2>
         <dl class="fields">
-          <div><dt>隧道配置</dt><dd><code>~/Library/Application Support/Porthole/tunnels.json</code></dd></div>
-          <div><dt>密码和口令</dt><dd>macOS 钥匙串，名称为 Porthole 的项目。可以在“钥匙串访问”里搜索 Porthole 找到。</dd></div>
-          <div><dt>服务器指纹</dt><dd>和终端里的 ssh 共用 <code>~/.ssh/known_hosts</code>。</dd></div>
+          <div><dt>Tunnel configuration</dt><dd><code>~/Library/Application Support/Porthole/tunnels.json</code></dd></div>
+          <div><dt>Passwords and passphrases</dt><dd>The macOS Keychain, in items named Porthole. Search for Porthole in Keychain Access to find them.</dd></div>
+          <div><dt>Server fingerprints</dt><dd>Shared with ssh in Terminal: <code>~/.ssh/known_hosts</code>.</dd></div>
         </dl>
-        <p>卸载 Porthole：</p>
+        <p>To uninstall Porthole:</p>
         <ol class="steps">
-          <li>在 <b>设置 ▸ 通用</b> 里关掉“登录时打开 Porthole”。</li>
-          <li>退出 Porthole，所有隧道会随之断开。</li>
-          <li>把“应用程序”文件夹里的 Porthole.app 移到废纸篓。</li>
-          <li>如果也想清除数据，删除 <code>~/Library/Application Support/Porthole</code> 文件夹，并在“钥匙串访问”里删除名为 Porthole 的项目。</li>
+          <li>Turn off “Open Porthole at login” in <b>Settings ▸ General</b>.</li>
+          <li>Quit Porthole. All tunnels disconnect with it.</li>
+          <li>Move Porthole.app from the Applications folder to the Trash.</li>
+          <li>To remove its data as well, delete the <code>~/Library/Application Support/Porthole</code> folder, and delete the items named Porthole in Keychain Access.</li>
         </ol>
       </section>
     </main>
@@ -445,11 +445,11 @@
   <div class="stripe" aria-hidden="true"></div>
   <footer class="footer">
     <div class="wrap footer-grid">
-      <p class="footer-brand"><img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="28" height="28"><span class="brand-word">Porthole</span><span class="zh">舷窗</span></p>
-      <p class="footer-note">为 Apple 芯片打造的 SSH 隧道管理工具，基于 macOS 自带的 OpenSSH。</p>
-      <nav aria-label="页脚导航">
-        <a href="./">首页</a>
-        <a href="./#download">下载</a>
+      <p class="footer-brand"><img class="brand-mark" src="assets/img/logo-mark.svg" alt="" width="28" height="28"><span class="brand-word">Porthole</span></p>
+      <p class="footer-note">An SSH tunnel manager built for Apple silicon, powered by the OpenSSH that comes with macOS.</p>
+      <nav aria-label="Footer">
+        <a href="./">Home</a>
+        <a href="./#download">Download</a>
         <a href="https://github.com/bryan31/porthole">GitHub</a>
       </nav>
     </div>

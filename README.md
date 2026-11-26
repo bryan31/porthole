@@ -1,19 +1,19 @@
 <p align="center">
-  <img src="website/assets/img/icon-512.png" width="128" height="128" alt="Porthole 图标">
+  <img src="website/assets/img/icon-512.png" width="128" height="128" alt="Porthole icon">
 </p>
 
-<h1 align="center">Porthole 舷窗</h1>
+<h1 align="center">Porthole</h1>
 
 <p align="center">
-  为 Apple 芯片打造的 macOS SSH 隧道管理工具。<br>
-  把服务器后面的数据库、监控面板和内网网站，接到你 Mac 的本地端口上。
+  An SSH tunnel manager for macOS, built for Apple silicon.<br>
+  Bring the databases, dashboards and internal sites behind your servers to a local port on your Mac.
 </p>
 
 <p align="center">
-  <a href="https://porthole.yomahub.com/">官网</a> ·
-  <a href="https://porthole.yomahub.com/#download">下载</a> ·
-  <a href="https://porthole.yomahub.com/docs.html">使用说明</a> ·
-  <a href="README.en.md">English</a>
+  <a href="https://porthole.yomahub.com/">Website</a> ·
+  <a href="https://porthole.yomahub.com/#download">Download</a> ·
+  <a href="https://porthole.yomahub.com/docs.html">Guide</a> ·
+  <a href="README.zh-CN.md">简体中文</a>
 </p>
 
 <p align="center">
@@ -23,70 +23,68 @@
   <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-1F55E0"></a>
 </p>
 
-![主窗口：三条本地转发规则汇入同一条 SSH 加密通道](website/assets/img/shots/zh-hans/detail-light-top.webp)
+![The main window: three local forwarding rules join one encrypted SSH channel](website/assets/img/shots/en/detail-light-top.webp)
 
-Porthole 是 Codinn **SSH Tunnel** 的现代替代品：原版只有 Intel 版本，在后续 macOS 中将无法运行。Porthole 保留了它的全部核心功能，换上了原生 SwiftUI 界面，并且直接驱动 macOS 自带的 OpenSSH，跟着系统一起获得安全更新。
+Porthole is a modern replacement for Codinn's **SSH Tunnel**, which only ships for Intel Macs and will stop running on future versions of macOS. Porthole keeps all of its core features, adds a native SwiftUI interface, and drives the OpenSSH that comes with macOS, so security fixes arrive with system updates.
 
-> Porthole = Port（端口）+ hole（通道）。舷窗是船上通向外面的圆窗，也就是图标的样子。
-
-| 编辑转发规则 | 菜单栏 | 服务器指纹确认 |
+| Editing a rule | Menu bar | Confirming a fingerprint |
 | --- | --- | --- |
-| ![](website/assets/img/shots/zh-hans/editor-forwarding.webp) | ![](website/assets/img/shots/zh-hans/menubar.webp) | ![](website/assets/img/shots/zh-hans/prompt-hostkey.webp) |
+| ![](website/assets/img/shots/en/editor-forwarding.webp) | ![](website/assets/img/shots/en/menubar.webp) | ![](website/assets/img/shots/en/prompt-hostkey.webp) |
 
-## 功能
+## Features
 
-- **三种转发规则**：本地、远程、动态（SOCKS 代理），一条隧道里可以放多条规则；配有白话解释和常用预设（PostgreSQL、MySQL、Redis…）。
-- **路线图示**：每条隧道画成“本机 → SSH 加密通道 → 服务器 → 目标”，颜色和流动的光点实时显示每条规则的状态与数据方向；编辑时同步预览。
-- **登录方式**：密码、私钥、ssh-agent、键盘交互（双重认证）；读取 `~/.ssh/config`。
-- **密码只在钥匙串里**：登录密码、私钥口令、代理和跳板机密码都只存在 macOS 钥匙串，配置文件和导出文件里没有密码。
-- **服务器指纹**：首次连接显示指纹并由你确认，主机密钥变化时一律拒绝连接。
-- **代理与跳板机**：经 SOCKS4 / SOCKS5 / HTTP 代理（可带用户名密码）或跳板机（ProxyJump）连接。
-- **自动重连**：断线后按 2、4、8、16、30 秒递增间隔重试；网络恢复、Mac 唤醒后自动刷新隧道。
-- **端口占用检查**：连接前检查本地端口，被占用时直接告诉你是哪个进程（含 PID）。
-- **不留残余进程**：意外退出后残留的 ssh 进程，下次启动时自动清理。
-- **完整 ssh 命令预览**：编辑时实时预览实际执行的命令，一键拷贝到终端。
-- **菜单栏面板**：逐个开关隧道、全部连接 / 全部断开；可选显示在 Dock、菜单栏或两者。
-- **智能分组与搜索**、**开机启动**、**导入导出**（包括原版 SSH Tunnel 的导出文件和 `~/.ssh/config` 里带转发的主机）。
-- **10 种界面语言**：English、简体中文、繁體中文、日本語、한국어、Deutsch、Français、Español、Português (Brasil)、Русский。
-- **浅色 / 深色 / 自动**：工具栏按钮、菜单栏面板或 <kbd>⇧⌘D</kbd> 随时切换。
+- **Three kinds of forwarding rules**: local, remote and dynamic (SOCKS proxy), as many as you like per tunnel, with plain-language explanations and presets for common services (PostgreSQL, MySQL, Redis…).
+- **Route diagram**: each tunnel is drawn as *this Mac → encrypted SSH channel → server → destination*. Colours and moving dots show every rule's state and which way the data flows, and the editor previews it as you type.
+- **Sign-in**: password, private key, ssh-agent and keyboard-interactive (two-factor); reads `~/.ssh/config`.
+- **Passwords stay in the Keychain**: login passwords, key passphrases and proxy and jump host passwords live only in the macOS Keychain. Neither the settings file nor exports contain a password.
+- **Fingerprint checks**: the first time you connect, Porthole shows the server's fingerprint and waits for you to confirm it. A changed host key is always refused.
+- **Proxies and jump hosts**: connect through a SOCKS4, SOCKS5 or HTTP proxy (with user name and password), or through a jump host (ProxyJump).
+- **Reconnects on its own**: retries at 2, 4, 8, 16 and 30 second intervals, and refreshes tunnels when the network comes back or your Mac wakes.
+- **Port taken? It tells you by whom**: local ports are checked before connecting; when one is in use, Porthole names the process and its PID.
+- **No leftover processes**: ssh processes left behind by an unexpected quit are cleaned up at the next launch.
+- **The ssh command in plain sight**: the editor previews the exact command Porthole runs and copies it for the terminal.
+- **Menu bar panel**: switch tunnels one by one, or connect and disconnect them all; show Porthole in the Dock, the menu bar or both.
+- **Smart groups and search**, **open at login**, **import and export** (including SSH Tunnel exports and `~/.ssh/config` hosts with forwards).
+- **10 interface languages**: English, 简体中文, 繁體中文, 日本語, 한국어, Deutsch, Français, Español, Português (Brasil) and Русский.
+- **Light, dark or automatic**: switch from the toolbar, the menu bar panel or with <kbd>⇧⌘D</kbd>.
 
-| 深色模式 | 经跳板机连接 | 设置 |
+| Dark mode | Through a jump host | Settings |
 | --- | --- | --- |
-| ![](website/assets/img/shots/zh-hans/detail-dark.webp) | ![](website/assets/img/shots/zh-hans/editor-connection-jump.webp) | ![](website/assets/img/shots/zh-hans/settings-general.webp) |
+| ![](website/assets/img/shots/en/detail-dark.webp) | ![](website/assets/img/shots/en/editor-connection-jump.webp) | ![](website/assets/img/shots/en/settings-general.webp) |
 
-## 安装
+## Install
 
-需要 macOS 14 Sonoma 或更新版本，Apple 芯片（M 系列）。
+Requires macOS 14 Sonoma or later on Apple silicon (M-series).
 
-1. 从[官网](https://porthole.yomahub.com/#download)下载 zip，解压后把 `Porthole.app` 拖进“应用程序”文件夹。
-2. Porthole 还没有经过 Apple 公证，第一次打开时 macOS 会拦下它：打开 **系统设置 ▸ 隐私与安全性**，在“安全性”一栏点“仍要打开”并确认。也可以在终端里移除隔离标记：
+1. Download the zip from the [website](https://porthole.yomahub.com/#download), unzip it and drag `Porthole.app` into Applications.
+2. Porthole isn't notarized by Apple yet, so macOS stops it the first time: open **System Settings ▸ Privacy & Security**, click “Open Anyway” under Security and confirm. Or remove the quarantine flag in Terminal:
 
    ```bash
    xattr -dr com.apple.quarantine /Applications/Porthole.app
    ```
 
-3. 按 <kbd>⌘N</kbd> 创建第一条隧道。详细步骤见[使用说明](https://porthole.yomahub.com/docs.html)。
+3. Press <kbd>⌘N</kbd> to create your first tunnel. The [guide](https://porthole.yomahub.com/docs.html) walks through it step by step.
 
-### 从 SSH Tunnel 迁移
+### Moving from SSH Tunnel
 
-1. 在旧版 SSH Tunnel 里全选隧道，选择 **File ▸ Export Selected Tunnels…** 导出。
-2. 在 Porthole 里选择 **文件 ▸ 导入隧道…**（<kbd>⇧⌘I</kbd>）导入该文件。
-3. 导出文件不含密码，第一次连接时输入一次，勾选“保存到我的钥匙串”即可。
+1. In SSH Tunnel, select all your tunnels and choose **File ▸ Export Selected Tunnels…**.
+2. In Porthole, choose **File ▸ Import Tunnels…** (<kbd>⇧⌘I</kbd>) and pick that file.
+3. Exports don't include passwords. Enter each one the first time you connect and tick “Remember in my Keychain”.
 
-原版导出文件的格式没有公开文档，导入器做了宽松解析。如果导入结果不对，欢迎[提交 Issue](https://github.com/bryan31/porthole/issues)（请先删掉文件里的服务器地址等敏感信息）。
+SSH Tunnel's export format isn't documented, so the importer reads it leniently. If an import comes out wrong, please [open an issue](https://github.com/bryan31/porthole/issues) (remove server names and other private details from the file first).
 
-## 工作原理
+## How it works
 
-Porthole 不自带 SSH 协议栈，而是驱动 macOS 自带的 OpenSSH（`/usr/bin/ssh`，原生 arm64，随系统更新）：
+Porthole has no SSH stack of its own. It drives the OpenSSH that ships with macOS (`/usr/bin/ssh`, native arm64, updated with the system):
 
-- 每条隧道是一个 `ssh -N` 进程，带 `ExitOnForwardFailure=yes`；Porthole 解析它的输出来判断连接和每条转发的状态。
-- 密码、私钥口令、主机指纹确认通过 `SSH_ASKPASS` 回调到应用里：同一个可执行文件以助手模式运行，经本地 Unix socket + 随机令牌通信。
-- 经代理连接时，同一个可执行文件以 `--proxy-connect` 模式充当 `ProxyCommand`，完成 SOCKS4 / SOCKS5 / HTTP CONNECT 握手（支持用户名密码）。
-- 隧道配置存为 JSON：`~/Library/Application Support/Porthole/tunnels.json`；所有密码只存在 macOS 钥匙串里。
+- Each tunnel is one `ssh -N` process with `ExitOnForwardFailure=yes`; Porthole reads its output to track the connection and every forward.
+- Passwords, key passphrases and host key confirmations come back to the app through `SSH_ASKPASS`: the same executable runs in a helper mode and talks to the app over a local Unix socket with a random token.
+- For proxies, the same executable acts as the `ProxyCommand` (`--proxy-connect`) and performs the SOCKS4 / SOCKS5 / HTTP CONNECT handshake, with user name and password.
+- Tunnels are stored as JSON in `~/Library/Application Support/Porthole/tunnels.json`; passwords are kept only in the macOS Keychain.
 
-## 从源码构建
+## Building from source
 
-只需要 Command Line Tools（不需要完整 Xcode），macOS 14+，Apple 芯片。
+Only the Command Line Tools are needed (no full Xcode), on macOS 14+ with Apple silicon.
 
 ```bash
 git clone https://github.com/bryan31/porthole.git
@@ -96,27 +94,27 @@ git clone https://github.com/bryan31/porthole.git
 cd porthole && ./scripts/build-app.sh
 ```
 
-生成 `build/Porthole.app`（arm64，ad-hoc 签名）。加上 `--install` 会同时复制到“应用程序”文件夹。
+This produces `build/Porthole.app` (arm64, ad-hoc signed). Add `--install` to copy it into Applications as well.
 
-运行单元测试（同时检查翻译）：
+Run the unit tests (this also checks the translations):
 
 ```bash
 ./scripts/test.sh
 ```
 
-开发调试用的环境变量和参数：
+For development:
 
 | | |
 | --- | --- |
-| `PORTHOLE_DATA_FILE=/path/tunnels.json` | 使用另一份隧道配置，不影响真实数据 |
-| `PORTHOLE_DEBUG_LOG=/path/debug.log` | 把所有隧道日志和状态变化同步写到文件 |
-| `Porthole --render-snapshots <目录>` | 用示例数据把主要界面渲染成 PNG |
+| `PORTHOLE_DATA_FILE=/path/tunnels.json` | Use a different tunnels file and leave your real data alone |
+| `PORTHOLE_DEBUG_LOG=/path/debug.log` | Mirror every tunnel log line and state change to a file |
+| `Porthole --render-snapshots <dir>` | Render the main screens with sample data as PNGs |
 
-### 翻译
+### Translations
 
-翻译文件在 `Localization/<语言>.json`，格式是 `{"英文原文": "译文"}`，复数写成 `{"one": "…", "few": "…", "other": "…"}`。打包时 `scripts/i18n.py compile` 把它们编译成 `.lproj/Localizable.strings` 和 `.stringsdict`。
+Translations live in `Localization/<language>.json` as `{"English source": "translation"}`; plurals are written as `{"one": "…", "few": "…", "other": "…"}`. When the app is packaged, `scripts/i18n.py compile` turns them into `.lproj/Localizable.strings` and `.stringsdict`.
 
-改了界面文字以后，先重新提取，再检查各语言缺少的条目和不一致的占位符（`%@`、`%lld`）：
+After changing interface text, extract the strings again, then list missing entries and mismatched placeholders (`%@`, `%lld`) for every language:
 
 ```bash
 python3 scripts/i18n.py extract
@@ -126,23 +124,23 @@ python3 scripts/i18n.py extract
 python3 scripts/i18n.py check
 ```
 
-## 目录结构
+## Project layout
 
 ```
-Sources/PortholeCore/   纯逻辑：数据模型、ssh 命令生成、日志解析、askpass 协议、代理握手、导入器（有单元测试）
-Sources/Porthole/       SwiftUI 应用：引擎（进程管理、重连、钥匙串）、界面、askpass / 代理助手模式
-Tests/                  单元测试（Swift Testing）
-Localization/           各语言翻译（JSON）和提取出的键列表
-scripts/                打包、测试、图标、翻译、官网发布脚本
-design/logo/            图标源文件（logo.py 生成 SVG）
-website/                官网（纯静态页面：简体、English、繁體）
-deploy/                 官网的 nginx 配置
+Sources/PortholeCore/   Pure logic: models, ssh command builder, log parser, askpass protocol, proxy handshakes, importers (unit tested)
+Sources/Porthole/       The SwiftUI app: engine (processes, reconnects, Keychain), views, askpass / proxy helper modes
+Tests/                  Unit tests (Swift Testing)
+Localization/           Translations (JSON) and the extracted key list
+scripts/                Packaging, tests, icon, translations and website release scripts
+design/logo/            Icon sources (logo.py writes the SVGs)
+website/                The website (static pages in 简体中文, English and 繁體中文)
+deploy/                 nginx configuration for the website
 ```
 
-## 参与贡献
+## Contributing
 
-欢迎提交 [Issue](https://github.com/bryan31/porthole/issues) 和 Pull Request。提交代码前请运行 `./scripts/test.sh`；改动界面文字时请同步更新 `Localization/` 下的翻译。
+[Issues](https://github.com/bryan31/porthole/issues) and pull requests are welcome. Please run `./scripts/test.sh` before sending code, and update the translations in `Localization/` when you change interface text.
 
-## 许可证
+## License
 
 [MIT](LICENSE)

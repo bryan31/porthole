@@ -5,8 +5,8 @@
 #
 # Writes website/downloads/Porthole-<version>.zip (+ .sha256) and updates every
 # element marked data-release="version|size|date|sha256" and every
-# downloads/Porthole-*.zip link in the site's pages (website/*.html and the language
-# folders website/en/, website/zh-hant/). The site is plain static files: upload the
+# downloads/Porthole-*.zip link in the site's pages (website/*.html: English, the default; and the language
+# folders website/zh-hans/, website/zh-hant/). The site is plain static files: upload the
 # website/ folder to any static host.
 set -euo pipefail
 cd "$(dirname "$0")/.."
