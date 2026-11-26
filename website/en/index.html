@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Porthole · SSH tunnels, native on Apple silicon</title>
+  <meta name="description" content="Porthole is an SSH tunnel manager for Macs with Apple silicon: local, remote and SOCKS forwarding, a live route diagram, passwords kept only in the Keychain, automatic reconnects, and import from SSH Tunnel.">
+  <meta name="theme-color" content="#061331">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Porthole">
+  <meta property="og:description" content="SSH tunnels, native on Apple silicon. Bring the databases, dashboards and internal sites behind your servers to a local port on your Mac.">
+  <meta property="og:image" content="../assets/img/icon-512.png">
+  <link rel="alternate" hreflang="zh-Hans" href="../">
+  <link rel="alternate" hreflang="zh-Hant" href="../zh-hant/">
+  <link rel="alternate" hreflang="en" href="./">
+  <link rel="alternate" hreflang="x-default" href="../">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-64.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/home.css">
+  <script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('porthole-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';d.dataset.theme=t;d.classList.add('js')})();</script>
+</head>
+<body class="home">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <canvas class="sea" id="sea" aria-hidden="true"></canvas>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="./" aria-label="Porthole home">
+      <img class="brand-mark" src="../assets/img/logo-mark.svg" alt="" width="28" height="28">
+      <span class="brand-word">Porthole</span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a class="nav-secondary" href="#how" data-jump="how">How it works</a>
+      <a class="nav-secondary" href="#rules">Rules</a>
+      <a href="docs.html">Guide</a>
+      <a class="nav-download" href="#download">Download</a>
+      <details class="lang-menu">
+        <summary aria-label="Language: English · 语言"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3.2 12h17.6M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z"/></g></svg><span>EN</span></summary>
+        <ul class="lang-list">
+          <li><a href="./" hreflang="en" lang="en" data-lang="en" aria-current="true">English</a></li>
+          <li><a href="../" hreflang="zh-Hans" lang="zh-Hans" data-lang="zh-hans">简体中文</a></li>
+          <li><a href="../zh-hant/" hreflang="zh-Hant" lang="zh-Hant" data-lang="zh-hant">繁體中文</a></li>
+        </ul>
+      </details>
+      <a class="nav-github" href="https://github.com/bryan31/porthole" aria-label="Porthole source code on GitHub" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      <button class="theme-toggle" type="button" aria-label="Switch theme">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.3" fill="currentColor"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.4 5.4l1.6 1.6M17 17l1.6 1.6M5.4 18.6 7 17M17 7l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 14.6A8.1 8.1 0 0 1 9.4 4.4a8.1 8.1 0 1 0 10.2 10.2Z" fill="currentColor"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero and the scroll-driven dive through the porthole -->
+    <section class="dive" id="dive" aria-labelledby="hero-title">
+      <div class="stage" id="stage">
+        <canvas class="streams" id="streams" aria-hidden="true"></canvas>
+        <img class="porthole-fallback" src="../assets/img/icon-512.png" alt="" width="512" height="512" aria-hidden="true">
+
+        <h1 class="hero-title" id="hero-title">
+          <span class="glyph glyph-l" aria-hidden="true">Port</span>
+          <span class="glyph glyph-r" aria-hidden="true">hole</span>
+          <span class="visually-hidden">Porthole: an SSH tunnel manager built for Apple silicon</span>
+        </h1>
+
+        <div class="hero-copy" id="hero-copy">
+          <p class="lede">An SSH tunnel manager built for Apple silicon.<br>Bring the databases, dashboards and internal sites behind your servers to a local port on your Mac.</p>
+          <div class="cta">
+            <a class="btn btn-coral" href="../downloads/Porthole-1.0.0.zip" download data-download>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download Porthole <span data-release="version">1.0.0</span>
+            </a>
+            <a class="btn btn-line" href="docs.html">Read the guide</a>
+          </div>
+          <ul class="req" aria-label="At a glance">
+            <li>macOS 14 or later</li>
+            <li>Apple silicon</li>
+            <li>10 interface languages</li>
+            <li><a href="https://github.com/bryan31/porthole">Open source on GitHub</a></li>
+          </ul>
+        </div>
+
+        <p class="scroll-cue" id="scroll-cue" aria-hidden="true"><span>Scroll down, through the porthole</span></p>
+
+        <div class="route-labels" id="route-labels" aria-hidden="true"></div>
+
+        <ol class="dive-captions" id="how" aria-label="How Porthole works">
+          <li>
+            <h2>Apps connect to a local port</h2>
+            <p>Database clients, browsers and scripts connect to <code>localhost:15432</code> as usual. As far as they can tell, the service runs right here on this Mac.</p>
+          </li>
+          <li>
+            <h2>Every rule shares one encrypted connection</h2>
+            <p>Porthole drives the OpenSSH that comes with macOS, and all the rules in a tunnel travel over the same ssh connection. If it drops, Porthole tries again after 2, 4, 8… up to 30 seconds, and refreshes it when your Mac wakes from sleep.</p>
+          </li>
+          <li>
+            <h2>The server reaches the private network for you</h2>
+            <p>Traffic leaves from <code>bastion.acme.io</code> and goes on to addresses only it can reach: a database replica, Redis and Grafana.</p>
+          </li>
+        </ol>
+        <ol class="dive-progress" id="dive-progress" aria-hidden="true"><li></li><li></li><li></li></ol>
+      </div>
+    </section>
+
+    <!-- Shown instead of the dive when motion is reduced or WebGL is missing -->
+    <section class="how-static" aria-label="How Porthole works">
+      <div class="wrap">
+        <figure class="shot">
+          <img src="../assets/img/shots/en/detail-dark.webp" alt="Porthole's main window: three local forwarding rules leave this Mac, join one encrypted SSH channel and fan out from bastion.acme.io to a database, Redis and Grafana" width="845" height="480" loading="lazy">
+        </figure>
+        <ol class="how-list">
+          <li><h2>Apps connect to a local port</h2><p>Database clients, browsers and scripts connect to <code>localhost:15432</code> as if the service ran on this Mac.</p></li>
+          <li><h2>Every rule shares one encrypted connection</h2><p>Porthole drives the OpenSSH that comes with macOS, reconnects on its own and refreshes tunnels when your Mac wakes.</p></li>
+          <li><h2>The server reaches the private network for you</h2><p>Traffic leaves from the SSH server and goes on to addresses only it can reach.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Three kinds of rules, interactive -->
+    <section class="rules" id="rules" aria-labelledby="rules-title">
+      <div class="wrap">
+        <div class="rules-head">
+          <div>
+            <h2 id="rules-title">Three kinds of forwarding rules</h2>
+            <p class="section-lede">A tunnel can hold several rules, and a rule's type can change at any time. The diagram below is the same one Porthole draws in its editor.</p>
+          </div>
+          <div class="seg" role="tablist" aria-label="Rule type">
+            <button role="tab" id="tab-local" aria-controls="panel-local" aria-selected="true" data-kind="local">Local</button>
+            <button role="tab" id="tab-remote" aria-controls="panel-remote" aria-selected="false" tabindex="-1" data-kind="remote">Remote</button>
+            <button role="tab" id="tab-socks" aria-controls="panel-socks" aria-selected="false" tabindex="-1" data-kind="socks">SOCKS proxy</button>
+          </div>
+        </div>
+
+        <figure class="rules-figure" id="rules-figure" aria-hidden="true">
+          <canvas class="rules-canvas" id="rules-canvas"></canvas>
+          <div class="route-labels" id="rules-labels"></div>
+        </figure>
+
+        <div class="rule-panel" id="panel-local" role="tabpanel" aria-labelledby="tab-local">
+          <div>
+            <h3>Reach a remote service on a local port</h3>
+            <p>Apps on this Mac connect to <code>localhost:5432</code>. The traffic goes through <code>server.example.com</code>, which connects on to <code>db.internal:5432</code>. Good for databases, Redis and internal dashboards.</p>
+          </div>
+          <pre><code>ssh -N -L 5432:db.internal:5432 server.example.com</code></pre>
+        </div>
+        <div class="rule-panel" id="panel-remote" role="tabpanel" aria-labelledby="tab-remote" hidden>
+          <div>
+            <h3>Share a local service with the server</h3>
+            <p><code>server.example.com</code> listens on port 8080. Connections that arrive there come back through the tunnel to this Mac and on to <code>localhost:3000</code>. Good for showing a work-in-progress site to a colleague, or for receiving webhook callbacks.</p>
+          </div>
+          <pre><code>ssh -N -R 8080:localhost:3000 server.example.com</code></pre>
+        </div>
+        <div class="rule-panel" id="panel-socks" role="tabpanel" aria-labelledby="tab-socks" hidden>
+          <div>
+            <h3>Browse through the server</h3>
+            <p>A SOCKS4/5 proxy runs on <code>localhost:1080</code>. Point a browser or app at it and every connection leaves from <code>server.example.com</code>, which is handy for sites that only the server can reach.</p>
+          </div>
+          <pre><code>ssh -N -D 1080 server.example.com</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- The app itself -->
+    <section class="craft" aria-labelledby="craft-title">
+      <div class="wrap">
+        <div class="showcase">
+          <figure class="shot shot-main">
+            <img class="for-dark" src="../assets/img/shots/en/detail-dark.webp" alt="Porthole's main window (dark): the Production Database tunnel has been connected for 2 h 13 min and all three rules are active" width="845" height="480" loading="lazy">
+            <img class="for-light" src="../assets/img/shots/en/detail-light-top.webp" alt="Porthole's main window (light): the Production Database tunnel has been connected for 2 h 13 min and all three rules are active" width="845" height="480" loading="lazy">
+          </figure>
+          <div class="showcase-text">
+            <h2 id="craft-title">Colour tells you the state</h2>
+            <p>Each tunnel is drawn as a bow tie: the addresses on this Mac's side on the left, the server's side on the right, and every rule meeting in one SSH channel in the middle. Filled tags are the ports that listen for connections; outlined tags are where the traffic ends up.</p>
+            <ul class="legend">
+              <li style="--c: var(--local)">Local forwarding</li>
+              <li style="--c: var(--remote)">Remote forwarding</li>
+              <li style="--c: var(--socks)">SOCKS proxy</li>
+              <li style="--c: #ff9f2e">Connecting</li>
+              <li class="legend-off">Not connected</li>
+            </ul>
+            <p class="fine">The lock in the middle of the channel turns green once connected and becomes a red ✕ when the connection fails. When the route goes through a proxy or jump host, the channel is labelled “via …”.</p>
+          </div>
+        </div>
+
+        <div class="menubar-row">
+          <div class="menubar-text">
+            <h2>Quietly in the menu bar</h2>
+            <p>Close the main window and your tunnels keep running. The small porthole in the menu bar shows how things stand:</p>
+            <ul class="status-icons">
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><circle cx="9" cy="9" r="3.6" fill="none" stroke-width="1.2"/></g></svg>
+                <span>All disconnected</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><path d="M9 5.4A3.6 3.6 0 0 0 9 12.6Z" stroke="none"/><circle cx="9" cy="9" r="3.6" fill="none" stroke-width="1.2"/></g></svg>
+                <span>Connecting</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><circle cx="9" cy="9" r="3.6" stroke="none"/></g></svg>
+                <span>A tunnel is connected</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><path d="M6.4 6.4 11.6 11.6" fill="none" stroke-width="1.6"/><circle cx="9" cy="9" r="3.6" fill="none" stroke-width="1.2"/></g></svg>
+                <span>A tunnel failed to connect</span>
+              </li>
+            </ul>
+            <p>Open the panel to switch tunnels on and off one at a time, or connect and disconnect them all at once. Porthole can live in the menu bar only and open at login; with a tunnel's “Connect when Porthole launches”, it's ready as soon as you sign in.</p>
+          </div>
+          <figure class="shot shot-menubar">
+            <img src="../assets/img/shots/en/menubar.webp" alt="Porthole's menu bar panel: six tunnels and their status, with Connect All and Disconnect All below" width="330" height="470" loading="lazy">
+          </figure>
+        </div>
+
+        <h2 class="specs-title">Secure, steady and out of your way</h2>
+        <dl class="specs">
+          <div>
+            <dt>Passwords stay in the Keychain</dt>
+            <dd>Login passwords, key passphrases and proxy and jump host passwords are kept only in the macOS Keychain. Neither the settings file nor exports contain a password.</dd>
+          </div>
+          <div>
+            <dt>New servers are checked by fingerprint</dt>
+            <dd>The first time you connect, Porthole shows the server's fingerprint and connects only after you confirm it. A changed host key is always refused.</dd>
+          </div>
+          <div>
+            <dt>Proxies and jump hosts</dt>
+            <dd>Reach the server through a SOCKS4, SOCKS5 or HTTP proxy (with user name and password), or through a jump host (ProxyJump).</dd>
+          </div>
+          <div>
+            <dt>Reconnects on its own</dt>
+            <dd>Retries at growing intervals of 2, 4, 8, 16 and 30 seconds, and refreshes tunnels after your Mac wakes from sleep or the network comes back.</dd>
+          </div>
+          <div>
+            <dt>Port taken? It tells you by whom</dt>
+            <dd>Before connecting, Porthole checks the local ports. When one is taken, it names the process and its PID, so there's no digging through <code>lsof</code>.</dd>
+          </div>
+          <div>
+            <dt>No leftover processes</dt>
+            <dd>If Porthole ever quits unexpectedly, the ssh processes it leaves behind are cleaned up the next time it starts.</dd>
+          </div>
+          <div>
+            <dt>Understands <code>~/.ssh/config</code></dt>
+            <dd>Automatic sign-in uses ssh-agent and the keys you already have, and Host entries with forwards can be imported as tunnels.</dd>
+          </div>
+          <div>
+            <dt>The ssh command in plain sight</dt>
+            <dd>The editor previews the complete ssh command as you go, and copies it for the terminal with one click.</dd>
+          </div>
+          <div>
+            <dt>10 interface languages</dt>
+            <dd>English, 简体中文, 繁體中文, 日本語, 한국어, Deutsch, Français, Español, Português and Русский. Follow the system, or pick one just for Porthole.</dd>
+          </div>
+          <div>
+            <dt>Light, dark or automatic</dt>
+            <dd>Switch any time with the toolbar button, the menu bar panel or <kbd>⇧⌘D</kbd>. Every window and dialog follows along.</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Migration from the Intel-only app -->
+    <section class="migrate" aria-labelledby="migrate-title">
+      <div class="wrap migrate-grid">
+        <div>
+          <h2 id="migrate-title">Moving over from SSH Tunnel</h2>
+          <p class="section-lede">Codinn's SSH Tunnel is Intel-only and won't run on future versions of macOS. Porthole matches its features and imports its export files directly.</p>
+        </div>
+        <ol class="steps">
+          <li>In SSH Tunnel, select all your tunnels and choose <b>File ▸ Export Selected Tunnels…</b>.</li>
+          <li>In Porthole, choose <b>File ▸ Import Tunnels…</b> (<kbd>⇧⌘I</kbd>) and pick that file.</li>
+          <li>Exports don't include passwords. Enter each one once when you first connect and tick “Remember in my Keychain” so you won't be asked again.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Download, on the white hull -->
+    <section class="hull download" id="download" aria-labelledby="download-title">
+      <svg class="waterline" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w1" d="M0 34C120 22 240 22 360 30S600 46 720 40 960 18 1080 22 1320 40 1440 32V60H0Z"/>
+        <path class="w2" d="M0 44C140 36 260 50 400 46S640 30 780 36 1040 54 1180 48 1380 38 1440 42V60H0Z"/>
+      </svg>
+      <div class="wrap download-grid">
+        <div class="dl-main">
+          <img class="dl-icon" src="../assets/img/icon-512.png" alt="" width="112" height="112" loading="lazy">
+          <h2 id="download-title">Download Porthole</h2>
+          <p class="dl-version" aria-label="Current version"><span data-release="version">1.0.0</span></p>
+          <a class="btn btn-coral btn-lg" href="../downloads/Porthole-1.0.0.zip" download>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download zip <span class="btn-meta" data-release="size">1.3 MB</span>
+          </a>
+          <dl class="dl-facts">
+            <div><dt>Requires</dt><dd>macOS 14 Sonoma or later on Apple silicon (M-series)</dd></div>
+            <div><dt>Source</dt><dd><a href="https://github.com/bryan31/porthole">github.com/bryan31/porthole</a> <span class="license">(MIT License)</span></dd></div>
+            <div><dt>Released</dt><dd data-release="date">2026-11-26</dd></div>
+            <div>
+              <dt>SHA-256</dt>
+              <dd class="sha">
+                <code data-release="sha256">697bc77d141e89e911210e3e66555268139e87e73b49bc40207f2b5a9a1430f6</code>
+                <button class="copy-btn" type="button" data-copy-target="[data-release='sha256']">Copy</button>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="dl-steps">
+          <h3>Install</h3>
+          <ol class="steps">
+            <li>
+              <b>Unzip and drag it into Applications</b>
+              <p>Double-click the zip you downloaded and drag Porthole.app into your Applications folder.</p>
+            </li>
+            <li>
+              <b>Open it the first time</b>
+              <p>Porthole isn't notarized by Apple yet, so macOS stops it the first time you open it. Go to <b>System Settings ▸ Privacy &amp; Security</b>, find the message about Porthole under Security, click “Open Anyway” and confirm. From then on it opens normally.</p>
+              <p>If you're at home in Terminal, you can remove the quarantine flag instead:</p>
+              <pre><code>xattr -dr com.apple.quarantine /Applications/Porthole.app</code></pre>
+            </li>
+            <li>
+              <b>Create your first tunnel</b>
+              <p>Press <kbd>⌘N</kbd>, fill in the server and the ports to forward, and click “Create &amp; Connect”. The <a href="docs.html#first-tunnel">guide</a> walks through it step by step.</p>
+            </li>
+          </ol>
+          <p class="verify">To check the download, run <code>shasum -a 256 ~/Downloads/Porthole-<span data-release="version">1.0.0</span>.zip</code>. It should print the SHA-256 shown above.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="stripe" aria-hidden="true"></div>
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <p class="footer-brand"><img class="brand-mark" src="../assets/img/logo-mark.svg" alt="" width="28" height="28"><span class="brand-word">Porthole</span></p>
+      <p class="footer-note">An SSH tunnel manager built for Apple silicon, powered by the OpenSSH that comes with macOS.</p>
+      <nav aria-label="Footer">
+        <a href="docs.html">Guide</a>
+        <a href="#download">Download</a>
+        <a href="https://github.com/bryan31/porthole">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../assets/js/lang.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+  <script src="../assets/js/home.js" defer></script>
+</body>
+</html>

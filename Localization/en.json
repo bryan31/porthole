@@ -1,0 +1,46 @@
+{
+ "%lld entries": {
+  "one": "%lld entry",
+  "other": "%lld entries"
+ },
+ "%lld missed replies": {
+  "one": "%lld missed reply",
+  "other": "%lld missed replies"
+ },
+ "%lld rules": {
+  "one": "%lld rule",
+  "other": "%lld rules"
+ },
+ "%lld tunnels": {
+  "one": "%lld tunnel",
+  "other": "%lld tunnels"
+ },
+ "%lld tunnels, none connected": {
+  "one": "%lld tunnel, none connected",
+  "other": "%lld tunnels, none connected"
+ },
+ "An unresponsive server is detected after about %lld seconds, then Porthole reconnects.": {
+  "one": "An unresponsive server is detected after about %lld second, then Porthole reconnects.",
+  "other": "An unresponsive server is detected after about %lld seconds, then Porthole reconnects."
+ },
+ "Delete %lld Tunnels…": {
+  "one": "Delete %lld Tunnel…",
+  "other": "Delete %lld Tunnels…"
+ },
+ "Delete %lld tunnels?": {
+  "one": "Delete %lld tunnel?",
+  "other": "Delete %lld tunnels?"
+ },
+ "Duplicate %lld Tunnels": {
+  "one": "Duplicate %lld Tunnel",
+  "other": "Duplicate %lld Tunnels"
+ },
+ "Export %lld Tunnels…": {
+  "one": "Export %lld Tunnel…",
+  "other": "Export %lld Tunnels…"
+ },
+ "Imported %lld tunnels": {
+  "one": "Imported %lld tunnel",
+  "other": "Imported %lld tunnels"
+ }
+}

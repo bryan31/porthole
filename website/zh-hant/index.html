@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Porthole 舷窗 · Apple 晶片原生的 SSH 通道管理工具</title>
+  <meta name="description" content="Porthole 是原生支援 Apple 晶片的 macOS SSH 通道管理工具：本機、遠端與 SOCKS 連接埠轉送，視覺化路線圖，密碼只存在鑰匙圈，斷線自動重新連線，可匯入 SSH Tunnel 的匯出檔案。">
+  <meta name="theme-color" content="#061331">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Porthole 舷窗">
+  <meta property="og:description" content="Apple 晶片原生的 SSH 通道管理工具。把伺服器後面的資料庫、監控面板和內部網站，接到你 Mac 的本機連接埠上。">
+  <meta property="og:image" content="../assets/img/icon-512.png">
+  <link rel="alternate" hreflang="zh-Hans" href="../">
+  <link rel="alternate" hreflang="zh-Hant" href="./">
+  <link rel="alternate" hreflang="en" href="../en/">
+  <link rel="alternate" hreflang="x-default" href="../">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg">
+  <link rel="icon" type="image/png" href="../assets/img/favicon-64.png">
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/home.css">
+  <script>(function(){var d=document.documentElement,t;try{t=localStorage.getItem('porthole-theme')}catch(e){}if(t!=='light'&&t!=='dark')t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';d.dataset.theme=t;d.classList.add('js')})();</script>
+</head>
+<body class="home">
+  <a class="skip" href="#main">跳到正文</a>
+
+  <canvas class="sea" id="sea" aria-hidden="true"></canvas>
+
+  <header class="nav" id="nav">
+    <a class="brand" href="./" aria-label="Porthole 首頁">
+      <img class="brand-mark" src="../assets/img/logo-mark.svg" alt="" width="28" height="28">
+      <span class="brand-word">Porthole</span>
+    </a>
+    <nav class="nav-links" aria-label="主導覽">
+      <a class="nav-secondary" href="#how" data-jump="how">原理</a>
+      <a class="nav-secondary" href="#rules">轉送規則</a>
+      <a href="docs.html">使用說明</a>
+      <a class="nav-download" href="#download">下載</a>
+      <details class="lang-menu">
+        <summary aria-label="語言：繁體中文 · Language"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3.2 12h17.6M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z"/></g></svg><span>繁</span></summary>
+        <ul class="lang-list">
+          <li><a href="../en/" hreflang="en" lang="en" data-lang="en">English</a></li>
+          <li><a href="../" hreflang="zh-Hans" lang="zh-Hans" data-lang="zh-hans">简体中文</a></li>
+          <li><a href="./" hreflang="zh-Hant" lang="zh-Hant" data-lang="zh-hant" aria-current="true">繁體中文</a></li>
+        </ul>
+      </details>
+      <a class="nav-github" href="https://github.com/bryan31/porthole" aria-label="Porthole 的原始碼（GitHub）" title="GitHub"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      <button class="theme-toggle" type="button" aria-label="切換主題">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.3" fill="currentColor"/><path d="M12 2.6v2.3M12 19.1v2.3M2.6 12h2.3M19.1 12h2.3M5.4 5.4l1.6 1.6M17 17l1.6 1.6M5.4 18.6 7 17M17 7l1.6-1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.6 14.6A8.1 8.1 0 0 1 9.4 4.4a8.1 8.1 0 1 0 10.2 10.2Z" fill="currentColor"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- Hero and the scroll-driven dive through the porthole -->
+    <section class="dive" id="dive" aria-labelledby="hero-title">
+      <div class="stage" id="stage">
+        <canvas class="streams" id="streams" aria-hidden="true"></canvas>
+        <img class="porthole-fallback" src="../assets/img/icon-512.png" alt="" width="512" height="512" aria-hidden="true">
+
+        <h1 class="hero-title" id="hero-title">
+          <span class="glyph glyph-l" aria-hidden="true">舷</span>
+          <span class="glyph glyph-r" aria-hidden="true">窗</span>
+          <span class="visually-hidden">Porthole 舷窗：Apple 晶片原生的 SSH 通道管理工具</span>
+        </h1>
+
+        <div class="hero-copy" id="hero-copy">
+          <p class="lede">為 Apple 晶片打造的 SSH 通道管理工具。<br>把伺服器後面的資料庫、監控面板和內部網站，接到你 Mac 的本機連接埠上。</p>
+          <div class="cta">
+            <a class="btn btn-coral" href="../downloads/Porthole-1.0.0.zip" download data-download>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              下載 Porthole <span data-release="version">1.0.0</span>
+            </a>
+            <a class="btn btn-line" href="docs.html">閱讀使用說明</a>
+          </div>
+          <ul class="req" aria-label="重點">
+            <li>macOS 14 以上</li>
+            <li>Apple 晶片</li>
+            <li>10 種介面語言</li>
+            <li><a href="https://github.com/bryan31/porthole">在 GitHub 開源</a></li>
+          </ul>
+        </div>
+
+        <p class="scroll-cue" id="scroll-cue" aria-hidden="true"><span>向下捲動，穿過舷窗</span></p>
+
+        <div class="route-labels" id="route-labels" aria-hidden="true"></div>
+
+        <ol class="dive-captions" id="how" aria-label="Porthole 的運作方式">
+          <li>
+            <h2>App 連到本機連接埠</h2>
+            <p>資料庫用戶端、瀏覽器和腳本照常連線到 <code>localhost:15432</code>。對它們來說，服務就在這台 Mac 上。</p>
+          </li>
+          <li>
+            <h2>所有規則共用一條加密連線</h2>
+            <p>Porthole 呼叫 macOS 內建的 OpenSSH，同一條通道裡的規則走同一個 ssh 連線。斷線後依 2、4、8…30 秒逐步重試，Mac 從睡眠中喚醒後也會主動重新整理。</p>
+          </li>
+          <li>
+            <h2>伺服器替你連進內部網路</h2>
+            <p>流量從 <code>bastion.acme.io</code> 出去，再前往只有它才能存取的位址：資料庫副本、Redis 和 Grafana。</p>
+          </li>
+        </ol>
+        <ol class="dive-progress" id="dive-progress" aria-hidden="true"><li></li><li></li><li></li></ol>
+      </div>
+    </section>
+
+    <!-- Shown instead of the dive when motion is reduced or WebGL is missing -->
+    <section class="how-static" aria-label="Porthole 的運作方式">
+      <div class="wrap">
+        <figure class="shot">
+          <img src="../assets/img/shots/zh-hant/detail-dark.webp" alt="Porthole 主視窗：三條本機轉送規則從本機匯入一條 SSH 加密通道，再從 bastion.acme.io 分別抵達資料庫、Redis 和 Grafana" width="845" height="480" loading="lazy">
+        </figure>
+        <ol class="how-list">
+          <li><h2>App 連到本機連接埠</h2><p>資料庫用戶端、瀏覽器和腳本照常連線到 <code>localhost:15432</code>，就像服務在這台 Mac 上。</p></li>
+          <li><h2>所有規則共用一條加密連線</h2><p>Porthole 呼叫 macOS 內建的 OpenSSH；斷線自動重新連線，Mac 喚醒後主動重新整理。</p></li>
+          <li><h2>伺服器替你連進內部網路</h2><p>流量從 SSH 伺服器出去，再前往只有它才能存取的位址。</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Three kinds of rules, interactive -->
+    <section class="rules" id="rules" aria-labelledby="rules-title">
+      <div class="wrap">
+        <div class="rules-head">
+          <div>
+            <h2 id="rules-title">三種轉送規則</h2>
+            <p class="section-lede">一條通道裡可以放多條規則，類型隨時可以切換。下面的圖示和 Porthole 編輯器裡的一樣。</p>
+          </div>
+          <div class="seg" role="tablist" aria-label="規則類型">
+            <button role="tab" id="tab-local" aria-controls="panel-local" aria-selected="true" data-kind="local">本機</button>
+            <button role="tab" id="tab-remote" aria-controls="panel-remote" aria-selected="false" tabindex="-1" data-kind="remote">遠端</button>
+            <button role="tab" id="tab-socks" aria-controls="panel-socks" aria-selected="false" tabindex="-1" data-kind="socks">SOCKS 代理</button>
+          </div>
+        </div>
+
+        <figure class="rules-figure" id="rules-figure" aria-hidden="true">
+          <canvas class="rules-canvas" id="rules-canvas"></canvas>
+          <div class="route-labels" id="rules-labels"></div>
+        </figure>
+
+        <div class="rule-panel" id="panel-local" role="tabpanel" aria-labelledby="tab-local">
+          <div>
+            <h3>在本機連接埠存取遠端服務</h3>
+            <p>本機 App 連線到 <code>localhost:5432</code>，流量經 <code>server.example.com</code> 轉送，再由它連到 <code>db.internal:5432</code>。適合資料庫、Redis 和內部監控面板。</p>
+          </div>
+          <pre><code>ssh -N -L 5432:db.internal:5432 server.example.com</code></pre>
+        </div>
+        <div class="rule-panel" id="panel-remote" role="tabpanel" aria-labelledby="tab-remote" hidden>
+          <div>
+            <h3>將本機服務分享給伺服器</h3>
+            <p><code>server.example.com</code> 在連接埠 8080 上監聽，那裡收到的連線會經通道回到本機，再連到 <code>localhost:3000</code>。適合把開發中的網頁給同事看，或接收 webhook 回呼。</p>
+          </div>
+          <pre><code>ssh -N -R 8080:localhost:3000 server.example.com</code></pre>
+        </div>
+        <div class="rule-panel" id="panel-socks" role="tabpanel" aria-labelledby="tab-socks" hidden>
+          <div>
+            <h3>透過伺服器上網</h3>
+            <p>本機在 <code>localhost:1080</code> 上執行 SOCKS4/5 代理伺服器。把瀏覽器或 App 指向它，所有連線都會從 <code>server.example.com</code> 出去，適合存取只對伺服器開放的網站。</p>
+          </div>
+          <pre><code>ssh -N -D 1080 server.example.com</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- The app itself -->
+    <section class="craft" aria-labelledby="craft-title">
+      <div class="wrap">
+        <div class="showcase">
+          <figure class="shot shot-main">
+            <img class="for-dark" src="../assets/img/shots/zh-hant/detail-dark.webp" alt="Porthole 主視窗（深色）：Production Database 通道已連線 2 小時 13 分，三條規則全部使用中" width="845" height="480" loading="lazy">
+            <img class="for-light" src="../assets/img/shots/zh-hant/detail-light-top.webp" alt="Porthole 主視窗（淺色）：Production Database 通道已連線 2 小時 13 分，三條規則全部使用中" width="845" height="480" loading="lazy">
+          </figure>
+          <div class="showcase-text">
+            <h2 id="craft-title">顏色就是狀態</h2>
+            <p>每條通道畫成一個領結：左邊是本機這一側的位址，右邊是伺服器那一側，所有規則匯入中間同一條 SSH 加密通道。實心標籤是接收連線的監聽連接埠，空心標籤是最終抵達的位址。</p>
+            <ul class="legend">
+              <li style="--c: var(--local)">本機轉送</li>
+              <li style="--c: var(--remote)">遠端轉送</li>
+              <li style="--c: var(--socks)">SOCKS 代理</li>
+              <li style="--c: #ff9f2e">正在連線</li>
+              <li class="legend-off">未連線</li>
+            </ul>
+            <p class="fine">通道中間的鎖在連上時變綠，失敗時變成紅色的 ✕。經由代理伺服器或跳板機時，通道下方會標出「經由 …」。</p>
+          </div>
+        </div>
+
+        <div class="menubar-row">
+          <div class="menubar-text">
+            <h2>安靜地待在選單列</h2>
+            <p>關閉主視窗，通道照常執行。選單列裡的小舷窗告訴你整體狀態：</p>
+            <ul class="status-icons">
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><circle cx="9" cy="9" r="3.6" fill="none" stroke-width="1.2"/></g></svg>
+                <span>全部未連線</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><path d="M9 5.4A3.6 3.6 0 0 0 9 12.6Z" stroke="none"/><circle cx="9" cy="9" r="3.6" fill="none" stroke-width="1.2"/></g></svg>
+                <span>正在連線</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><circle cx="9" cy="9" r="3.6" stroke="none"/></g></svg>
+                <span>有通道已連線</span>
+              </li>
+              <li>
+                <svg viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><circle cx="9" cy="9" r="7.4" fill="none" stroke-width="1.8"/><circle cx="14.23" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="3.77" r="1.3" stroke="none"/><circle cx="3.77" cy="14.23" r="1.3" stroke="none"/><circle cx="14.23" cy="14.23" r="1.3" stroke="none"/><path d="M6.4 6.4 11.6 11.6" fill="none" stroke-width="1.6"/><circle cx="9" cy="9" r="3.6" fill="none" stroke-width="1.2"/></g></svg>
+                <span>有通道連線失敗</span>
+              </li>
+            </ul>
+            <p>打開面板可以個別開關每條通道，或一鍵全部連線、全部中斷連線。Porthole 可以只顯示在選單列，也可以在登入時自動打開；搭配通道的「Porthole 啟動時自動連線」，開機後通道就已就緒。</p>
+          </div>
+          <figure class="shot shot-menubar">
+            <img src="../assets/img/shots/zh-hant/menubar.webp" alt="Porthole 選單列面板：六條通道及各自狀態，下方是全部連線和全部中斷連線按鈕" width="330" height="470" loading="lazy">
+          </figure>
+        </div>
+
+        <h2 class="specs-title">安全、穩定，也不打擾</h2>
+        <dl class="specs">
+          <div>
+            <dt>密碼只放在鑰匙圈</dt>
+            <dd>登入密碼、私密金鑰密語、代理伺服器和跳板機的密碼都只存在 macOS 鑰匙圈裡。設定檔和匯出檔案都不含密碼。</dd>
+          </div>
+          <div>
+            <dt>新伺服器先核對指紋</dt>
+            <dd>第一次連線時顯示伺服器的指紋，經你確認後才連線。主機金鑰一旦變更，一律拒絕。</dd>
+          </div>
+          <div>
+            <dt>代理伺服器與跳板機</dt>
+            <dd>可以經由 SOCKS4、SOCKS5、HTTP 代理伺服器（支援使用者名稱和密碼）或跳板機（ProxyJump）連到伺服器。</dd>
+          </div>
+          <div>
+            <dt>斷線自動重新連線</dt>
+            <dd>依 2、4、8、16、30 秒逐步拉長間隔重試；Mac 從睡眠中喚醒、網路恢復後會自動重新整理通道。</dd>
+          </div>
+          <div>
+            <dt>連接埠被占用，直接告訴你是誰</dt>
+            <dd>連線前先檢查本機連接埠，被占用時指出是哪個程序和它的 PID，不必再去翻 <code>lsof</code>。</dd>
+          </div>
+          <div>
+            <dt>不留殘餘程序</dt>
+            <dd>Porthole 意外結束後留下的 ssh 程序，會在下次啟動時自動清理。</dd>
+          </div>
+          <div>
+            <dt>讀得懂 <code>~/.ssh/config</code></dt>
+            <dd>自動登入會用上 ssh-agent 和你既有的金鑰；含轉送設定的 Host 項目可以直接匯入成通道。</dd>
+          </div>
+          <div>
+            <dt>ssh 指令一目了然</dt>
+            <dd>編輯器裡即時預覽完整的 ssh 指令，也可以一鍵拷貝到終端機裡使用。</dd>
+          </div>
+          <div>
+            <dt>10 種介面語言</dt>
+            <dd>繁體中文、简体中文、English、日本語、한국어、Deutsch、Français、Español、Português、Русский，可跟隨系統或個別指定。</dd>
+          </div>
+          <div>
+            <dt>淺色、深色、跟隨系統</dt>
+            <dd>用工具列按鈕、選單列面板或 <kbd>⇧⌘D</kbd> 隨時切換，所有視窗和對話框一起變。</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Migration from the Intel-only app -->
+    <section class="migrate" aria-labelledby="migrate-title">
+      <div class="wrap migrate-grid">
+        <div>
+          <h2 id="migrate-title">從 SSH Tunnel 搬過來</h2>
+          <p class="section-lede">Codinn 的 SSH Tunnel 只有 Intel 版本，在未來的 macOS 上將無法執行。Porthole 的功能與它對齊，並能直接匯入它的匯出檔案。</p>
+        </div>
+        <ol class="steps">
+          <li>在 SSH Tunnel 裡全選通道，選擇 <b>File ▸ Export Selected Tunnels…</b> 匯出。</li>
+          <li>在 Porthole 裡選擇 <b>檔案 ▸ 匯入通道…</b>（<kbd>⇧⌘I</kbd>），選取剛才的檔案。</li>
+          <li>匯出檔案不含密碼。第一次連線時輸入一次，勾選「儲存到我的鑰匙圈」，之後就不用再輸入。</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Download, on the white hull -->
+    <section class="hull download" id="download" aria-labelledby="download-title">
+      <svg class="waterline" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+        <path class="w1" d="M0 34C120 22 240 22 360 30S600 46 720 40 960 18 1080 22 1320 40 1440 32V60H0Z"/>
+        <path class="w2" d="M0 44C140 36 260 50 400 46S640 30 780 36 1040 54 1180 48 1380 38 1440 42V60H0Z"/>
+      </svg>
+      <div class="wrap download-grid">
+        <div class="dl-main">
+          <img class="dl-icon" src="../assets/img/icon-512.png" alt="" width="112" height="112" loading="lazy">
+          <h2 id="download-title">下載 Porthole</h2>
+          <p class="dl-version" aria-label="目前版本"><span data-release="version">1.0.0</span></p>
+          <a class="btn btn-coral btn-lg" href="../downloads/Porthole-1.0.0.zip" download>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            下載 zip <span class="btn-meta" data-release="size">1.3 MB</span>
+          </a>
+          <dl class="dl-facts">
+            <div><dt>系統需求</dt><dd>macOS 14 Sonoma 或更新版本，Apple 晶片（M 系列）</dd></div>
+            <div><dt>原始碼</dt><dd><a href="https://github.com/bryan31/porthole">github.com/bryan31/porthole</a><span class="license">（MIT 授權）</span></dd></div>
+            <div><dt>發布日期</dt><dd data-release="date">2026-11-26</dd></div>
+            <div>
+              <dt>SHA-256</dt>
+              <dd class="sha">
+                <code data-release="sha256">697bc77d141e89e911210e3e66555268139e87e73b49bc40207f2b5a9a1430f6</code>
+                <button class="copy-btn" type="button" data-copy-target="[data-release='sha256']">拷貝</button>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="dl-steps">
+          <h3>安裝</h3>
+          <ol class="steps">
+            <li>
+              <b>解壓縮，拖進「應用程式」</b>
+              <p>按兩下下載的 zip，把 Porthole.app 拖到「應用程式」檔案夾。</p>
+            </li>
+            <li>
+              <b>第一次打開</b>
+              <p>Porthole 尚未經過 Apple 公證，第一次打開時 macOS 會擋下它。打開 <b>系統設定 ▸ 隱私權與安全性</b>，在「安全性」一欄找到關於 Porthole 的提示，按一下「強制打開」並確認。之後就能正常打開了。</p>
+              <p>熟悉終端機的話，也可以直接移除隔離標記：</p>
+              <pre><code>xattr -dr com.apple.quarantine /Applications/Porthole.app</code></pre>
+            </li>
+            <li>
+              <b>建立第一條通道</b>
+              <p>按 <kbd>⌘N</kbd>，填好伺服器和要轉送的連接埠，按一下「建立並連線」。詳細步驟請見<a href="docs.html#first-tunnel">使用說明</a>。</p>
+            </li>
+          </ol>
+          <p class="verify">校驗下載的檔案：<code>shasum -a 256 ~/Downloads/Porthole-<span data-release="version">1.0.0</span>.zip</code>，輸出應與上面的 SHA-256 一致。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="stripe" aria-hidden="true"></div>
+  <footer class="footer">
+    <div class="wrap footer-grid">
+      <p class="footer-brand"><img class="brand-mark" src="../assets/img/logo-mark.svg" alt="" width="28" height="28"><span class="brand-word">Porthole</span><span class="zh">舷窗</span></p>
+      <p class="footer-note">為 Apple 晶片打造的 SSH 通道管理工具，基於 macOS 內建的 OpenSSH。</p>
+      <nav aria-label="頁尾導覽">
+        <a href="docs.html">使用說明</a>
+        <a href="#download">下載</a>
+        <a href="https://github.com/bryan31/porthole">GitHub</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="../assets/js/lang.js" defer></script>
+  <script src="../assets/js/theme.js" defer></script>
+  <script src="../assets/js/home.js" defer></script>
+</body>
+</html>

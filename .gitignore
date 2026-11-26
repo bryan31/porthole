@@ -1,0 +1,30 @@
+# ---- Build output ----
+.build/
+build/
+.swiftpm/
+*.xcodeproj/
+xcuserdata/
+DerivedData/
+
+# ---- macOS ----
+.DS_Store
+
+# ---- Local tooling ----
+.claude/
+.codegraph/
+.vscode/
+.idea/
+
+# ---- Release packages ----
+# Made by scripts/build-site.sh; published on the website server and GitHub Releases, not in git.
+website/downloads/
+*.zip
+*.zip.sha256
+
+# ---- Local notes and drafts (not part of the public repo) ----
+docs/
+
+# ---- Design explorations: rejected logo candidates and the old brass icon ----
+design/logo/candidates/
+design/logo/candidates.py
+design/logo/legacy/
